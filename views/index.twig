@@ -1,0 +1,6 @@
+{% extends 'layout.twig' %}
+{% block content %}
+    <h4>Hello Swig and Twig</h4>
+    <p>Message</p>
+    <p>{{ _.pluck({name:"Marc"},{name:"Thierry"},"name") }}</p>
+{% endblock %}

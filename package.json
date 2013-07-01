@@ -8,6 +8,10 @@
   "dependencies": {
     "express": "3.3.1",
     "ejs": "*",
-    "less-middleware": "*"
+    "less-middleware": "*",
+    "underscore":"1.X",
+    "consolidate":"*",
+    "swig":"*",
+    "redis":"*"
   }
 }

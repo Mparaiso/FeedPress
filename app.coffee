@@ -1,41 +1,59 @@
 ###
-# création de l'application
-express = require("express")
-app = express()
-# définition des routes
-app.get("/hello.txt",(req,res)->
-    body="Hello World"
-    res.setHeader('Content-Type','text/plain')
-    res.setHeader("Content-Length",body.length)
-    res.end(body)
-)
-# calculation automatique de la longueur de la réponse
-app.get "/hello2.txt",(req,res)->
-    res.send("Hello word")
-
-# lier et écouter les connections sur un port
-app.listen(3000)
-
-console.log("Listening on port 3000")
+    Module dependencies.
 ###
-
-
-###
-* Module dependencies.
-###
-
+_ = require("underscore")
 express = require('express')
 routes = require('./routes')
 user = require('./routes/user')
 http = require('http')
 path = require('path');
 
+# creation de l'application
 app = express();
 
 # all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+
+###
+    SWIG TEMPLATING ENGINE ( TWIG  )
+###
+consolidate = require "consolidate"
+swig = require 'swig'
+app.engine '.twig', consolidate.swig
+app.set 'view engine','html'
+swig.init({
+    root: __dirname+"/views/"
+    allowErrors:true
+    extensions:{"_":_}
+})
+app.set 'views',__dirname+"/views/"
+# fin de la config swig
+
+### REDIS ###
+redis = require("redis")
+db = redis.createClient(
+    9400,
+    "beardfish.redistogo.com"
+)
+db.auth("b4e7177ca59109c8dd5739c59a429901", ->)
+# online user tracking
+app.use((req,res,next)->
+    ua =req.headers['user-agent']
+    db.zadd('online',Date.now(),ua,next)
+)
+# fetching online users in the last minute
+app.use((req,res,next)->
+    min=60*1000
+    ago=Date.now()-min
+    db.zrevrangebyscore("online","+inf",ago,(err,users)->
+        if err then return next(err)
+        req.online = users
+        next()
+    )
+)
+
+
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -49,6 +67,10 @@ app.use(express.static(path.join(__dirname, 'public')))
 # development only
 if 'development' == app.get('env')
     app.use(express.errorHandler())
+else
+    app.use (err,req,res,next)->
+        console.error err.stack
+        res.send 500, 'Something went wrog'
 
 
 app.get('/', routes.index);

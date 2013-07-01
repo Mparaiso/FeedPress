@@ -1,0 +1,18 @@
+ul {
+  list-style: none;
+}
+body {
+  padding: 50px;
+  font: 100% "Helvetica Neue", "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+h1 {
+  margin: auto;
+  width: 960px;
+}
+.container {
+  margin: auto;
+  width: 960px;
+}
+a {
+  color: #00B7FF;
+}
