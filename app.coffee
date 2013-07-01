@@ -33,10 +33,10 @@ app.set 'views',__dirname+"/views/"
 ### REDIS ###
 redis = require("redis")
 db = redis.createClient(
-    9400,
-    "beardfish.redistogo.com"
+    process.env.REDISTOGO_PORT,
+    process.env.REDISTOGO_HOST
 )
-db.auth("b4e7177ca59109c8dd5739c59a429901", ->)
+db.auth(process.env.REDISTOGO_PASSWORD, ->)
 # online user tracking
 app.use((req,res,next)->
     ua =req.headers['user-agent']

@@ -51,9 +51,9 @@ app.set('views', __dirname + "/views/");
 
 redis = require("redis");
 
-db = redis.createClient(9400, "beardfish.redistogo.com");
+db = redis.createClient(process.env.REDISTOGO_PORT, process.env.REDISTOGO_HOST);
 
-db.auth("b4e7177ca59109c8dd5739c59a429901", function() {});
+db.auth(process.env.REDISTOGO_PASSWORD, function() {});
 
 app.use(function(req, res, next) {
   var ua;
