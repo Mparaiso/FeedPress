@@ -1,0 +1,7 @@
+{% extends 'layout.twig' %}
+{% block header %}
+    Edit user {{ user.name }}
+{% endblock %}
+{% block content %}
+    {% include "forms/user.twig" %}
+{% endblock %}

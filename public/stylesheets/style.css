@@ -16,3 +16,9 @@ h1 {
 a {
   color: #00B7FF;
 }
+label {
+  display: block;
+}
+input {
+  display: block;
+}

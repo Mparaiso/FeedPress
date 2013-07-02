@@ -3,7 +3,7 @@
     Module dependencies.
 */
 
-var app, consolidate, db, express, http, path, redis, routes, swig, user, _;
+var app, consolidate, database, db, express, home, http, path, redis, routes, server, swig, users, _;
 
 _ = require("underscore");
 
@@ -11,11 +11,15 @@ express = require('express');
 
 routes = require('./routes');
 
-user = require('./routes/user');
+home = require("./routes/home");
+
+users = require('./routes/users');
 
 http = require('http');
 
 path = require('path');
+
+database = require("./lib/database");
 
 app = express();
 
@@ -74,6 +78,11 @@ app.use(function(req, res, next) {
   });
 });
 
+/*
+    MIDDLEWARES
+*/
+
+
 app.use(express.favicon());
 
 app.use(express.logger('dev'));
@@ -99,15 +108,39 @@ if ('development' === app.get('env')) {
 } else {
   app.use(function(err, req, res, next) {
     console.error(err.stack);
-    return res.send(500, 'Something went wrog');
+    return res.send(500, 'Something went wrong');
   });
 }
 
+/*
+    LOCALS
+*/
+
+
+app.locals.db = database;
+
+/*
+    ROUTES
+*/
+
+
 app.get('/', routes.index);
 
-app.get('/users', user.list);
+app.all("/home", home.index);
 
-http.createServer(app).listen(app.get('port'), function() {
+app.post("/home/contact", home.createContact);
+
+app.all("/home/contact", home.contact);
+
+app.get('/users', users.index);
+
+app.all("/users/new", users["new"]);
+
+app.get("/users/:name", users.show);
+
+app.all("/users/edit/:id", users.edit);
+
+server = http.createServer(app).listen(app.get('port'), function() {
   return console.log('Express server listening on port ' + app.get('port'));
 });
 

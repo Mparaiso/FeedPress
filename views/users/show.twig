@@ -1,0 +1,16 @@
+{% extends 'layout.twig' %}
+{% block content %}
+    <h4>User {{ user.name }}</h4>
+    <dl>
+        <dt>Name:</dt>
+        <dd>{{ user.name }}</dd>
+        <dt>Email:</dt>
+        <dd>{{ user.email }}</dd>
+        <dt>Age:</dt>
+        <dd>{{ user.age }}</dd>
+    </dl>
+    <ul>
+        <li><a href="/users/edit/{{ user.id }}">Edit</a></li>
+        <li><a href="/users">Return to user list</a></li>
+    </ul>
+{% endblock %}

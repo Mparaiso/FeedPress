@@ -12,6 +12,7 @@
     "underscore":"1.X",
     "consolidate":"*",
     "swig":"*",
-    "redis":"*"
+    "redis":"*",
+    "mongoose":"2.7.X"
   }
 }

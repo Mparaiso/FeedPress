@@ -4,9 +4,11 @@
 _ = require("underscore")
 express = require('express')
 routes = require('./routes')
-user = require('./routes/user')
+home = require("./routes/home")
+users = require('./routes/users')
 http = require('http')
 path = require('path');
+database = require("./lib/database")
 
 # creation de l'application
 app = express();
@@ -53,7 +55,9 @@ app.use((req,res,next)->
     )
 )
 
-
+###
+    MIDDLEWARES
+###
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -70,12 +74,27 @@ if 'development' == app.get('env')
 else
     app.use (err,req,res,next)->
         console.error err.stack
-        res.send 500, 'Something went wrog'
+        res.send 500, 'Something went wrong'
 
+###
+    LOCALS
+###
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+app.locals.db = database
 
-http.createServer(app).listen(app.get('port'), ->
+###
+    ROUTES
+###
+
+app.get('/', routes.index)
+app.all("/home",home.index)
+app.post("/home/contact",home.createContact)
+app.all("/home/contact",home.contact)
+app.get('/users', users.index)
+app.all("/users/new",users.new)
+app.get("/users/:name",users.show)
+app.all("/users/edit/:id",users.edit)
+
+server = http.createServer(app).listen(app.get('port'), ->
     console.log('Express server listening on port ' + app.get('port'));
 )
