@@ -3,29 +3,51 @@
     Module dependencies.
 */
 
-var app, consolidate, database, db, express, home, http, path, redis, routes, server, swig, users, _;
+var Config, Pimple, app, articles, consolidate, express, feeds, http, path, server, swig, _;
 
-_ = require("underscore");
+_ = require("lodash");
 
 express = require('express');
 
-routes = require('./routes');
+feeds = require('./routes/feeds');
 
-home = require("./routes/home");
+articles = require('./routes/articles');
 
-users = require('./routes/users');
+Pimple = require('pimple');
+
+Config = require('./lib/config');
 
 http = require('http');
 
 path = require('path');
 
-database = require("./lib/database");
-
 app = express();
+
+app.map = function(routes, prefix) {
+  var route, value;
+  prefix = prefix || "";
+  for (route in routes) {
+    value = routes[route];
+    switch (typeof value) {
+      case "object":
+        this.map(value, prefix + route);
+        break;
+      case "function":
+        app[route](prefix, value);
+    }
+  }
+};
 
 app.set('port', process.env.PORT || 3000);
 
 app.set('views', __dirname + '/views');
+
+/* Configuration du conteneur d'injection de dépendance*/
+
+
+app.DI = new Pimple;
+
+app.DI.register(Config);
 
 /*
     SWIG TEMPLATING ENGINE ( TWIG  )
@@ -45,38 +67,20 @@ swig.init({
   allowErrors: true,
   extensions: {
     "_": _
+  },
+  filters: {
+    substring: function(input, start, length) {
+      var result;
+      result = "";
+      if (typeof input === "string") {
+        result = "".substring.call(input, start, length);
+      }
+      return result;
+    }
   }
 });
 
 app.set('views', __dirname + "/views/");
-
-/* REDIS*/
-
-
-redis = require("redis");
-
-db = redis.createClient(process.env.REDISTOGO_PORT, process.env.REDISTOGO_HOST);
-
-db.auth(process.env.REDISTOGO_PASSWORD, function() {});
-
-app.use(function(req, res, next) {
-  var ua;
-  ua = req.headers['user-agent'];
-  return db.zadd('online', Date.now(), ua, next);
-});
-
-app.use(function(req, res, next) {
-  var ago, min;
-  min = 60 * 1000;
-  ago = Date.now() - min;
-  return db.zrevrangebyscore("online", "+inf", ago, function(err, users) {
-    if (err) {
-      return next(err);
-    }
-    req.online = users;
-    return next();
-  });
-});
 
 /*
     MIDDLEWARES
@@ -117,32 +121,52 @@ if ('development' === app.get('env')) {
 */
 
 
-app.locals.db = database;
-
 /*
     ROUTES
 */
 
 
-app.get('/', routes.index);
+app.map({
+  '/': {
+    all: feeds.index
+  },
+  '/feeds': {
+    '/byxmlurl/:xmlurl': {
+      all: feeds.byXmlUrl
+    },
+    '/suscribe': {
+      post: feeds.suscribe
+    },
+    '/:id': {
+      all: feeds.read
+    },
+    all: feeds.index
+  },
+  '/articles': {
+    '/:id': {
+      all: articles.read
+    }
+  }
+});
 
-app.all("/home", home.index);
+/*
+    MY MIDDLEWARE
+*/
 
-app.post("/home/contact", home.createContact);
 
-app.all("/home/contact", home.contact);
-
-app.get('/users', users.index);
-
-app.all("/users/new", users["new"]);
-
-app.get("/users/:name", users.show);
-
-app.all("/users/edit/:id", users.edit);
+app.use(function(req, res, next) {
+  res.set("Cache-Control", "public");
+  res.set("X-Powered-By", "Me-Myself-And-I");
+  return next();
+});
 
 server = http.createServer(app).listen(app.get('port'), function() {
   return console.log('Express server listening on port ' + app.get('port'));
 });
+
+app.on("something", (function() {
+  return console.log("hi");
+}));
 
 /*
 //@ sourceMappingURL=app.map

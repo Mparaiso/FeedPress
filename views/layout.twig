@@ -3,15 +3,17 @@
 <head>
     <meta encoding="utf-8"/>
     <title>{% block title %}Express | page title{% endblock %}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css'/>
+    <link rel='stylesheet' href='/vendor/bootstrap/css/bootstrap.min.css'/>
+    <link rel='stylesheet' href='/vendor/bootstrap/css/bootstrap-responsive.min.css'/>
+    <link rel='stylesheet' href='/stylesheets/style.less'/>
+    <link href='http://fonts.googleapis.com/css?family=Cantarell:400,700' rel='stylesheet' type='text/css'>
+
 </head>
 <body>
-<h1>
-    {% block header %}
-        Expressjs with Swig
-    {% endblock %}
-</h1>
 <div class="container">
+    {% block header %}
+        <h2 class="row"><a class="brand" href="/">Superfeeder!</a></h2>
+    {% endblock %}
     {% block content %}
     {% endblock %}
 </div>

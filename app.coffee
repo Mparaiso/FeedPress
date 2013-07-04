@@ -1,21 +1,37 @@
 ###
     Module dependencies.
 ###
-_ = require("underscore")
-express = require('express')
-routes = require('./routes')
-home = require("./routes/home")
-users = require('./routes/users')
-http = require('http')
-path = require('path');
-database = require("./lib/database")
+_ = require "lodash"
+express = require 'express'
+
+feeds = require './routes/feeds'
+articles = require './routes/articles'
+Pimple = require 'pimple'
+Config=require './lib/config'
+http = require 'http'
+path = require 'path'
 
 # creation de l'application
 app = express();
 
+app.map=(routes,prefix)->
+    prefix=prefix||""
+    for route,value of routes
+        switch typeof value
+            when "object"
+                this.map(value,prefix+route)
+            when "function"
+                app[route](prefix,value)
+    return
+
+
 # all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
+
+### Configuration du conteneur d'injection de dépendance ###
+app.DI = new Pimple
+app.DI.register(Config)
 
 ###
     SWIG TEMPLATING ENGINE ( TWIG  )
@@ -27,33 +43,16 @@ app.set 'view engine','html'
 swig.init({
     root: __dirname+"/views/"
     allowErrors:true
-    extensions:{"_":_}
+    extensions:{"_":_},
+    filters:{
+        substring:(input,start,length)->
+            result=""
+            if typeof input == "string"
+                result =  "".substring.call(input,start,length)
+            return result
+    }
 })
 app.set 'views',__dirname+"/views/"
-# fin de la config swig
-
-### REDIS ###
-redis = require("redis")
-db = redis.createClient(
-    process.env.REDISTOGO_PORT,
-    process.env.REDISTOGO_HOST
-)
-db.auth(process.env.REDISTOGO_PASSWORD, ->)
-# online user tracking
-app.use((req,res,next)->
-    ua =req.headers['user-agent']
-    db.zadd('online',Date.now(),ua,next)
-)
-# fetching online users in the last minute
-app.use((req,res,next)->
-    min=60*1000
-    ago=Date.now()-min
-    db.zrevrangebyscore("online","+inf",ago,(err,users)->
-        if err then return next(err)
-        req.online = users
-        next()
-    )
-)
 
 ###
     MIDDLEWARES
@@ -80,21 +79,42 @@ else
     LOCALS
 ###
 
-app.locals.db = database
-
 ###
     ROUTES
 ###
+app.map
+    '/':
+        all:feeds.index
 
-app.get('/', routes.index)
-app.all("/home",home.index)
-app.post("/home/contact",home.createContact)
-app.all("/home/contact",home.contact)
-app.get('/users', users.index)
-app.all("/users/new",users.new)
-app.get("/users/:name",users.show)
-app.all("/users/edit/:id",users.edit)
+    '/feeds':
+        '/byxmlurl/:xmlurl':
+            all:feeds.byXmlUrl
+        '/suscribe':
+            post:feeds.suscribe
+        '/:id':
+            all:feeds.read
+        all:feeds.index
+
+
+    '/articles':
+        '/:id':
+            all:articles.read
+
+
+
+
+
+###
+    MY MIDDLEWARE
+###
+app.use((req,res,next)->
+    res.set("Cache-Control","public")
+    res.set("X-Powered-By","Me-Myself-And-I")
+    next()
+)
 
 server = http.createServer(app).listen(app.get('port'), ->
     console.log('Express server listening on port ' + app.get('port'));
 )
+
+app.on("something",(-> console.log "hi"))

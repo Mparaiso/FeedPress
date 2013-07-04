@@ -1,0 +1,16 @@
+{% extends 'feeds/index.twig' %}
+{% block center %}
+    <div class="row">
+        <h4>{{ article.title }}
+            <a target="_blank" href="{{ article.link }}">
+                <i class="icon-share pull-right"></i></a>
+        </h4>
+        <div>
+            {% for category in article.categories %}
+                <a href="/articles/bytags/{{ category|url_encode }}">{{ category }}</a>
+            {% endfor %}
+        </div>
+
+        <p>{{ article.description|raw }}</p>
+    </div>
+{% endblock %}

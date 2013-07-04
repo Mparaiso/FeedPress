@@ -1,14 +1,14 @@
 module.exports = {
 # GET users listing.
     index: ((req, res)->
-        req.app.locals.db.Users.find({}, (err, docs)->
+        req.app.get('db').Users.find({}, (err, docs)->
             res.render("users/index.twig", {users: docs})
         )
     )
     new: ((req, res)->
         if req.route.method.toLowerCase() == "post"
             b =req.body
-            new req.app.locals.db.Users({
+            new req.app.get('db').Users({
                 name: b.name,
                 age: b.age,
                 email: b.email
@@ -21,13 +21,13 @@ module.exports = {
     show: ((req, res)->
         username=req.params.name
         # trouver l'utilisateur selon le nom
-        req.app.locals.db.Users.find(name: username,(err, docs)->
+        req.app.get('db').Users.find(name: username,(err, docs)->
             user=docs[0]
             res.render("users/show.twig", {user: user})
         )
     )
     edit: ((req, res)->
-        db = req.app.locals.db
+        db = req.app.get('db')
         db.Users.findById(req.params.id, ((err, user)->
             if req.route.method.toLowerCase() == "post"
                 db.Users.update(_id: req.body.id,

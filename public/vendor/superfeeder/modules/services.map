@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "services.js",
+  "sourceRoot": "",
+  "sources": [
+    "services.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA,GAAA,CAAA;;AAAA,CAAA,EAAA,GAAM,CAAO,MAAP;;AAEN,CAFA,CAE2B,CAAxB,GAAH,SAAA;CAA2B,CACvB,CAAA;CAHJ,CAEA;;AAIA,CANA,CAMkC,CAA/B,EAA+B,EAAlC,EAAmC,YAAnC;;AAIA,CAVA,CAUmC,CAAhC,EAAgC,EAAnC,EAAoC,aAApC"
+}
