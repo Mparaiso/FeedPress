@@ -1,48 +1,50 @@
 {% extends 'layout.twig' %}
 {% block content %}
-    <!-- MAIN -->
-    <div class="row" data-ng-app="superFeeder" data-ng-controller="MainController">
-        <h4>Feeds</h4>
-        <form action="/feeds/suscribe" method="POST" class="form-horizontal">
-            <label for="url">Suscribe a feed</label>
-            <input type="text" name="url" id="url"/>
-            <input type="submit" value="Suscribe">
-        </form>
+<!-- MAIN -->
+<div class="row" data-ng-app="superFeeder" data-ng-controller="MainController">
+    <h4>Feeds</h4>
+    <form action="/feeds/suscribe" method="POST" class="form-horizontal">
+        <label for="url">Suscribe a feed</label>
+        <input type="text" name="url" id="url"/>
+        <input type="submit" value="Suscribe">
+    </form>
+</div>
+<div class="row">
+    <div class="span2">
+        {% block left %}
+        <ul class="unstyled">
+            {% for feed in feeds %}
+            <li class="overflow-hidden"><a href="/feeds/{{ feed._id }}">{{ feed.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endblock %}
     </div>
-    <div class="row">
-        <div class="span2">
-            {% block left %}
-                <ul class="unstyled">
-                    {% for feed in feeds %}
-                        <li><a href="/feeds/{{ feed._id }}">{{ feed.title }}</a></li>
-                    {% endfor %}
-                </ul>
-            {% endblock %}
-        </div>
-        <div class="span10 ">
-            {% block center %}
-                <ul class="unstyled">
-                    {% for article in articles %}
-                        <li>
-                            <h4>
-                                <a href="/articles/{{ article.id }}">
-                                    {{ article.title|substring(0,100) }}.</a>
-                                <a target="_blank" href="{{ article.link }}"
-                                   title="open {{ article.link }}">
-                                    <i class="icon-share pull-right"></i></a>
-                            </h4>
-                            <h5>
+    <div class="span10 ">
+        {% block center %}
+        <ul class="unstyled">
+            {% for article in articles %}
+            <li>
+                <h4>
+                    <!-- feed title -->
+                    <small class="overflow-hidden" style="width:200px;display:inline-block;" >
+                        <a href="/feeds/byxmlurl/{{ article.meta.xmlurl|url_encode }}">
+                            {{ article.meta.title }}</a></small>
+                            <!-- article title -->
+                            <a href="/articles/{{ article.id }}">
+                                {{ article.title|substring(0,100) }}.</a>
+                                <!-- icon open -->
+                                <a class="pull-right" 
+                                target="_blank" href="{{ article.link }}"
+                                title="open {{ article.link }}">&nbsp;
+                                <i class="icon-share "></i></a>
+                                <!--date -->
                                 <small class="pull-right">
                                     {{ article.pubDate|date('Y-M-d H:i') }}</small>
-                                <small><a href="/feeds/byxmlurl/{{ article.meta.xmlurl|url_encode }}">
-                                        {{ article.meta.title }}</a></small>
-                            </h5>
-                            {# <div>{{ article.summary|striptags|substring(0,100) }}</div> #}
-                            <hr/>
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% endblock %}
-        </div>
-    </div>
-{% endblock %}
+                                </h4>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endblock %}
+                    </div>
+                </div>
+                {% endblock %}
