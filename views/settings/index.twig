@@ -1,0 +1,13 @@
+{% extends 'layout.twig' %}
+{% block content %}
+    <h4>Settings</h4>
+    <form action="/settings/import" method="POST" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Import Google Reader datas</legend>
+            <input type="file"
+                   name="reader"
+                   id="reader" accept="text/xml" required="true">
+            <input class="btn" type="submit" value="Import">
+        </fieldset>
+    </form>
+{% endblock %}

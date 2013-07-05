@@ -2,10 +2,9 @@
 {% block center %}
 <div class="row">
     <ul class="breadcrumb">
-      <li><a href="/feed/byxmlurl/{{article.meta.xmlurl|url_encode}}">
+      <li><a href="/feeds/byxmlurl/{{article.meta.xmlurl|url_encode}}">
         {{article.meta.title}}</a> <span class="divider">/</span></li>
     </ul>
-    <h5> >></h5>
     <h4>{{ article.title }}
         <a target="_blank" href="{{ article.link }}">
             <i class="icon-share pull-right"></i></a>

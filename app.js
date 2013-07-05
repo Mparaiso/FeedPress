@@ -7,6 +7,10 @@ var Config, Pimple, app, articles, consolidate, express, feeds, http, path, serv
 
 express = require('express');
 
+routes = require("./routes");
+
+settings = require("./routes/settings");
+
 feeds = require('./routes/feeds');
 
 articles = require('./routes/articles');
@@ -42,7 +46,7 @@ app.set('views', __dirname + '/views');
 
 /* Configuration du conteneur d'injection de dépendance*/
 app.DI = new Pimple;
-
+app.DI.set("dispatcher", app);
 app.DI.register(Config);
 
 /*
@@ -85,7 +89,7 @@ app.use(express.favicon());
 
 app.use(express.logger('dev'));
 
-app.use(express.bodyParser());
+app.use(express.bodyParser({keepExtensions:true, uploadDir:__dirname + '/upload'}));
 
 app.use(express.methodOverride());
 
@@ -106,7 +110,9 @@ if ('development' === app.get('env')) {
 } else {
     app.use(function (err, req, res, next) {
         console.error(err.stack);
-        return res.send(500, 'Something went wrong');
+        //return res.send(500, 'Something went wrong');
+        res.set("Refresh", "3;/");
+        return res.render('error.twig', {message:'Something went wrong, redirecting to home page'});
     });
 }
 
@@ -114,6 +120,8 @@ if ('development' === app.get('env')) {
 /*
  ROUTES
  */
+app.all('/feeds/unsuscribe/:objectid', feeds.unsuscribe);
+
 app.map({
     '/':{
         all:feeds.index
@@ -125,15 +133,33 @@ app.map({
         '/suscribe':{
             post:feeds.suscribe
         },
+        '/refresh':{
+            all:feeds.refresh
+        },
         '/:id':{
             all:feeds.read
         },
         all:feeds.index
     },
     '/articles':{
+        '/bytags/:tag':{
+            all:feeds.byTags
+        },
         '/:id':{
             all:articles.read
         }
+    },
+    '/search':{
+        all:feeds.search
+    },
+    '/error':{
+        all:routes.index
+    },
+    '/settings':{
+        '/import':{
+            post:settings.import
+        },
+        all:settings.index
     }
 });
 

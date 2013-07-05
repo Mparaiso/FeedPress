@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta encoding="utf-8"/>
-    <title>{% block title %}Express | page title{% endblock %}</title>
+    <title>{% block title %}FeddPress | A NodeJS Rss Reader {% endblock %}</title>
     <link rel='stylesheet' href='/vendor/bootstrap/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='/vendor/bootstrap/css/bootstrap-responsive.min.css'/>
     <link rel='stylesheet' href='/stylesheets/style.less'/>
@@ -10,10 +10,19 @@
 
 </head>
 <body>
+{% block header %}
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand" href="/">Feedpress</a>
+                <ul class="nav pull-right">
+                    <li><a href="/settings">Settings</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 <div class="container">
-    {% block header %}
-        <h2 class="row"><a class="brand" href="/">Superfeeder!</a></h2>
-    {% endblock %}
     {% block content %}
     {% endblock %}
 </div>
