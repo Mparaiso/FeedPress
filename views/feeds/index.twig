@@ -15,9 +15,9 @@
                     <input type="text" name="url" id="url" class="input-block-level"/>
                     <input type="submit" value="Suscribe" class="btn">
                 </form>
-                <ul class="unstyled feed-list">
+                <ul class="unstyled ">
                     {% for feed in feeds %}
-                        <li class="overflow-hidden i-over">
+                        <li class="overflow-hidden feed-list i-over">
                             <img src="{{ feed.faviconurl }}" style="width=16px;height=16px;">
                             <a title="{{ feed.title }}"
                                href="/feeds/byxmlurl/{{ feed.xmlurl|url_encode }}">
