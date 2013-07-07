@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta encoding="utf-8"/>
-    <title>{% block title %}{{ settings.title }} {% endblock %}</title>
+    <title>{% block title %}{{ settings.title }} {{ settings.author }} {% endblock %}</title>
     <link rel='stylesheet' href='/vendor/bootstrap/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='/vendor/bootstrap/css/bootstrap-responsive.min.css'/>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
@@ -12,7 +12,9 @@
     <div class="navbar navbar-inverse">
         <div class="navbar-inner">
             <div class="container">
-                <a class="brand" href="/">{{ settings.title }}</a>
+                <a class="brand" href="/">{{ settings.title }}
+                    <small class='font-small'>{{ settings.author }}</small>
+                </a>
                 <ul class="nav pull-right">
                     <li><a href="/settings">Settings</a></li>
                 </ul>
@@ -25,9 +27,9 @@
     {% endblock %}
 </div>
 <div class="footer text-center">
-{% block footer %}
-    <small class="font-small">FeedPress! &copy;2013 mparaiso , all rights reserved. </small>
-{% endblock %}
+    {% block footer %}
+        <small class="font-small">FeedPress! &copy;2013 mparaiso , all rights reserved.</small>
+    {% endblock %}
 </div>
 </body>
 </html>

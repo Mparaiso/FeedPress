@@ -64,6 +64,7 @@ app.map = function (routes, prefix) {
 
 app.set('port', process.env.PORT || 3000);
 app.set("title", "FeedPress!");
+app.set("author","Mparaiso");
 app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
 
