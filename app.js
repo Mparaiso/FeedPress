@@ -197,11 +197,11 @@ app.map({
                     all:articles.read
                 }
             },
-            '/suscribe':{
-                post:feeds.suscribe
+            '/subscribe':{
+                post:feeds.subscribe
             },
-            '/unsuscribe':{
-                all:feeds.unsuscribe
+            '/unsubscribe/:id':{
+                all:feeds.unsubscribe
             },
             '/refresh':{
                 all:feeds.refresh

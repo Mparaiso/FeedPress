@@ -18,12 +18,12 @@ module.exports = {
             }
         });
     },
-    suscribe:function (req, res) {
+    subscribe:function (req, res) {
         var db, url;
         url = req.body.url;
         db = req.app.DI.db;
         if (url) {
-            db.model('Feed').suscribe(url, function (err) {
+            db.model('Feed').subscribe(url, function (err) {
                 if (err) {
                     console.log(err);
                 }
@@ -75,9 +75,9 @@ module.exports = {
         });
         res.redirect("/");
     },
-    unsuscribe:function (req, res) {
+    unsubscribe:function (req, res) {
         var db = req.app.DI.db;
-        db.model('Feed').unsuscribe(req.params.objectid, function (err) {
+        db.model('Feed').unsubscribe(req.params.id, function (err) {
             console.log("feed unsubscribe", arguments);
             res.redirect("/");
         });
@@ -87,7 +87,7 @@ module.exports = {
             , q = req.query.q || "";
         db.model('Article').search(q, function (err, articles) {
             if (err) return  res.send(500, err);
-            return res.render("feeds/index.twig", {articles:articles, feeds:feeds});
+            return res.render("feeds/index.twig", {articles:articles});
         });
 
     },

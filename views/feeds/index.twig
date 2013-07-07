@@ -14,7 +14,7 @@
                 <form action="/feeds/suscribe" method="POST" id="feed-subscribe" name="feed-suscribe">
                     <label for="url">Suscribe a feed</label>
                     <input type="text" name="url" id="url" class="input-block-level"/>
-                    <input type="submit" value="Suscribe" class="btn btn-primary">
+                    <input type="submit" value="Subscribe" class="btn btn-primary">
                 </form>
                 <h5>
                     <small>Home</small>
@@ -42,7 +42,7 @@
                                    href="/feeds/{{ feed._id }}"> <img src="{{ feed.favicon }}"
                                                                       class="favicon">
                                     {{ feed.title|substring(0,18) }}</a>
-                                <a title="unsuscribe to {{ feed.xmlurl }}" href="/feeds/unsuscribe/{{ feed._id }}">
+                                <a title="unsuscribe to {{ feed.xmlurl }}" href="/feeds/unsubscribe/{{ feed._id }}">
                                     <i class="icon-remove pull-right"></i>
                                 </a>
                             </li>
