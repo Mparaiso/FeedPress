@@ -19,6 +19,8 @@ module.exports = {
         });
     },
     subscribe:function (req, res) {
+        //@note @node @express set the request timeout
+        req.socket.setTimeout(10 * 60 * 1000);
         var db, url;
         url = req.body.url;
         db = req.app.DI.db;
@@ -43,7 +45,7 @@ module.exports = {
         var db = req.app.DI.db;
         db.model('Article').findByFeedId(id, function (err, articles) {
             if (err) return res.send(500, arguments);
-            return res.render("feeds/index.twig", { articles:articles});
+            return res.render("feeds/index.twig", { articles:articles,feed_id:id});
         });
     },
     /**
@@ -65,6 +67,7 @@ module.exports = {
      * @param {response} res
      */
     refresh:function (req, res) {
+        req.socket.setTimeout(10 * 60 * 1000);
         var db = req.app.DI.db;
         db.model('Feed').refresh(function (err) {
             if (err) {

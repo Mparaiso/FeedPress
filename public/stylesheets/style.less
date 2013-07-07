@@ -34,8 +34,11 @@ body {
   padding-left: 0;
 }
 
-.feed-list {
+.feed-list-item {
   font-size: 80%;
+  &.active {
+    background-color: @light-gray;
+  }
 }
 
 .i-over i {
@@ -56,10 +59,10 @@ body {
   min-height: 480px;
 }
 
-*{
+* {
   border-radius: 0 !important;
 }
 
-.brand{
+.brand {
   font-family: Georgia, "Times New Roman", sans-serif !important;
 }

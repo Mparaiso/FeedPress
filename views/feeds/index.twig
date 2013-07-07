@@ -25,7 +25,7 @@
                         <small class="muted font-small">({{ settings.article_count }})</small>
                     </li>
                     <li><a class="font-small" href="/feeds/favorites">Starred Items</a>
-                    <span class="muted font-small">({{ settings.favorite_count }})</span></li>
+                        <span class="muted font-small">({{ settings.favorite_count }})</span></li>
                     <li><a class="font-small" href="/feeds/articles/unread">Unread Items</a>
                         <small class="muted font-small">({{ settings.unread_count }})</small>
                     </li>
@@ -37,11 +37,12 @@
                     <!-- SUBSCRIPTIONS LIST -->
                     <ul class="unstyled">
                         {% for feed in feeds %}
-                            <li class="feed-list i-over">
+                            <li class="feed-list-item i-over {% if feed_id == feed._id %}active{% endif %}">
                                 <a title="{{ feed.title }}" class="overflow-hidden "
                                    href="/feeds/{{ feed._id }}"> <img src="{{ feed.favicon }}"
                                                                       class="favicon">
                                     {{ feed.title|substring(0,18) }}</a>
+                                <a href="#"><i class="icon-edit pull-right"></i></a>
                                 <a title="unsuscribe to {{ feed.xmlurl }}" href="/feeds/unsubscribe/{{ feed._id }}">
                                     <i class="icon-remove pull-right"></i>
                                 </a>
@@ -59,30 +60,7 @@
                 {% else %}
                     <ul class="unstyled nav nav-list">
                         {% for article in articles %}
-                            <li {% if article._read %}class="article-read"{% endif %}>
-                                <h5>
-                                    <!--feed bookmark-->
-                                    <a href="/feeds/favorites/{{ article._id }}">
-                                        <i class="{% if article._favorite===true %}icon-star{% else %}icon-star-empty{% endif %}"></i>
-                                    </a>
-                                    <!-- feed title -->
-                                    <small class="overflow-hidden muted" title="{{article.meta.title}}"
-                                           style="width:100px;display:inline-block;">
-                                        {{ article.meta.title }}
-                                    </small>
-                                    <!-- article title -->
-                                    <a href="/feeds/articles/{{ article.id }}" class="overflow-hidden">
-                                        {{ article.title|substring(0,100) }}.</a>
-                                    <!-- icon open -->
-                                    <a class="pull-right"
-                                       target="_blank" href="{{ article.link }}"
-                                       title="open {{ article.link }}">&nbsp;
-                                        <i class="icon-share "></i></a>
-                                    <!--date -->
-                                <span class="font-small muted pull-right" title="{{ article.pubDate|date("r") }}">
-                                    {{ article.pubDate|date('M D, Y') }}</span>
-                                </h5>
-                            </li>
+                                {% include "includes/article-list-item.twig"  %}
                         {% endfor %}
                     </ul>
                 {% endif %}
