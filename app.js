@@ -11,15 +11,15 @@ var Config, Pimple, app, articles, consolidate, express, feeds, http, path, serv
 
 express = require('express');
 
-routes = require("./routes");
+routes = require("./controllers");
 
-settings = require("./routes/settings");
+settings = require("./controllers/settings");
 
-feeds = require('./routes/feeds');
+feeds = require('./controllers/feeds');
 
-articles = require('./routes/articles');
+articles = require('./controllers/articles');
 
-favorites = require('./routes/favorites');
+favorites = require('./controllers/favorites');
 
 Pimple = require('pimple');
 
@@ -64,7 +64,7 @@ app.map = function (routes, prefix) {
 
 app.set('port', process.env.PORT || 3000);
 app.set("title", "FeedPress!");
-app.set("author","Mparaiso");
+app.set("author", "Mparaiso");
 app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
 
@@ -136,7 +136,7 @@ var countUnread = function (req, res, next) {
 }
 
 var fetchFeeds = function (req, res, next) {
-    var db=req.app.DI.db;
+    var db = req.app.DI.db;
     return db.model("Feed").find({}, "title xmlurl favicon", function (err, feeds) {
         if (err)req.app.DI.logger.log("error form fetchFeeds", err);
         if (feeds)app.locals.feeds = feeds;
@@ -184,7 +184,7 @@ if ('development' === app.get('env')) {
 
 app.map({
         '/':{
-            all:[countArticles, countStared, countUnread,fetchFeeds, feeds.index]
+            all:[countArticles, countStared, countUnread, fetchFeeds, feeds.index]
         },
         '/feeds':{
             '/articles':{
@@ -203,6 +203,9 @@ app.map({
             },
             '/unsubscribe/:id':{
                 all:feeds.unsubscribe
+            },
+            '/edit':{
+                all:feeds.edit
             },
             '/refresh':{
                 all:feeds.refresh

@@ -37,16 +37,7 @@
                     <!-- SUBSCRIPTIONS LIST -->
                     <ul class="unstyled">
                         {% for feed in feeds %}
-                            <li class="feed-list-item i-over {% if feed_id == feed._id %}active{% endif %}">
-                                <a title="{{ feed.title }}" class="overflow-hidden "
-                                   href="/feeds/{{ feed._id }}"> <img src="{{ feed.favicon }}"
-                                                                      class="favicon">
-                                    {{ feed.title|substring(0,18) }}</a>
-                                <a href="#"><i class="icon-edit pull-right"></i></a>
-                                <a title="unsuscribe to {{ feed.xmlurl }}" href="/feeds/unsubscribe/{{ feed._id }}">
-                                    <i class="icon-remove pull-right"></i>
-                                </a>
-                            </li>
+                          {% include "includes/feed-list-item.twig" %}
                         {% endfor %}
                     </ul>
                 </div>
