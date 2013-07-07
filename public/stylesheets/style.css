@@ -12,7 +12,7 @@ body {
   font-size: 12px;
 }
 .overflow-hidden {
-  overflow-x: hidden;
+  overflow: hidden;
   white-space: nowrap;
   border: none;
 }
