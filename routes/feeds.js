@@ -6,7 +6,7 @@ module.exports = {
     toString:function () {
         return "[object FeedCtrl]"
     },
-    index:function (req, res, cb) {
+    index:function (req, res) {
         var db = req.app.DI.db;
         db.model('Article').findAllAndSortByPubDateDesc(function (err, articles) {
                 if (err) {
@@ -33,11 +33,9 @@ module.exports = {
         if (url) {
             db.model('Feed').suscribe(url, function (err) {
                 if (err) {
-                    console.log(err)
-                    throw err
-                } else {
-                    res.redirect("/");
+                    console.log(err);
                 }
+                res.redirect("/");
             });
         } else {
             res.redirect("/");
@@ -73,31 +71,14 @@ module.exports = {
      * @param req
      * @param res
      */
-    byXmlUrl:function (req, res) {
-        var xmlurl = req.params.xmlurl;
-        var db = req.app.DI.db;
-        db.model('Article').find({'meta.xmlurl':xmlurl}, function (err, articles) {
-            if (err) {
-                return res.send(500, err);
-            } else {
-                return db.model('Feed').find(function (err, feeds) {
-                    if (err) {
-                        return res.send(500, err);
-                    } else {
-                        return res.render("feeds/index.twig", {articles:articles, feeds:feeds});
-                    }
-                });
-            }
-        });
-    },
     /**
      * display articles by tags
      * @param req
      * @param res
      */
     byTags:function (req, res) {
-        db = req.app.DI.db;
-        tags = [req.params.tag]
+        var db = req.app.DI.db;
+        var tags = [req.params.tag];
         db.model('Article').findByTags(tags, function (err, articles) {
             if (err) {
                 return res.send(500, err);
@@ -118,26 +99,26 @@ module.exports = {
      * @param {response} res
      */
     refresh:function (req, res) {
-        db = req.app.DI.db
-        db.model('Feed').refresh(function (err, done) {
+        var db = req.app.DI.db;
+        db.model('Feed').refresh(function (err) {
             if (err) {
-                res.send(500, err);
+                req.app.DI.logger.error(err)
             } else {
-                res.send({message:"All feeds have been refreshed"})
+                req.app.DI.logger.log({message:"All feeds have been refreshed"})
             }
         });
+        res.redirect("/");
     },
-
     unsuscribe:function (req, res) {
         var db = req.app.DI.db;
-        db.model('Feed').unsubscribe(req.params.objectid, function (err) {
+        db.model('Feed').unsuscribe(req.params.objectid, function (err) {
             console.log("feed unsubscribe", arguments);
             res.redirect("/");
         });
     },
     search:function (req, res) {
         var db = req.app.DI.db
-            , q = req.query.q||"";
+            , q = req.query.q || "";
         db.model('Article').search(q, function (err, articles) {
             console.log(err);
             if (err) {
@@ -154,5 +135,9 @@ module.exports = {
             }
         });
 
+    },
+    streamIcon:function(req,res){
+        var id = req.params.id;
+        
     }
 };

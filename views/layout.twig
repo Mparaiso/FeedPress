@@ -2,19 +2,17 @@
 <html>
 <head>
     <meta encoding="utf-8"/>
-    <title>{% block title %}FeddPress | A NodeJS Rss Reader {% endblock %}</title>
+    <title>{% block title %}{{ settings.title }} {% endblock %}</title>
     <link rel='stylesheet' href='/vendor/bootstrap/css/bootstrap.min.css'/>
     <link rel='stylesheet' href='/vendor/bootstrap/css/bootstrap-responsive.min.css'/>
-    <link rel='stylesheet' href='/stylesheets/style.less'/>
-    <link href='http://fonts.googleapis.com/css?family=Cantarell:400,700' rel='stylesheet' type='text/css'>
-
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
 </head>
 <body>
 {% block header %}
     <div class="navbar navbar-inverse">
         <div class="navbar-inner">
             <div class="container">
-                <a class="brand" href="/">Feedpress</a>
+                <a class="brand" href="/">{{ settings.title }}</a>
                 <ul class="nav pull-right">
                     <li><a href="/settings">Settings</a></li>
                 </ul>
@@ -22,11 +20,14 @@
         </div>
     </div>
 {% endblock %}
-<div class="container">
+<div class="container main">
     {% block content %}
     {% endblock %}
 </div>
+<div class="footer text-center">
 {% block footer %}
+    <small class="font-small">FeedPress! &copy;2013 mparaiso , all rights reserved. </small>
 {% endblock %}
+</div>
 </body>
 </html>

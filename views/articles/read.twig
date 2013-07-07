@@ -1,20 +1,24 @@
 {% extends 'feeds/index.twig' %}
 {% block center %}
-<div class="row">
+<!-- feed title -->
     <ul class="breadcrumb">
-      <li><a href="/feeds/byxmlurl/{{article.meta.xmlurl|url_encode}}">
-        {{article.meta.title}}</a> <span class="divider">/</span></li>
+        <li><a href="/feeds/{{ article._feed }}">
+            {{ article.meta.title }}</a> <span class="divider">/</span></li>
     </ul>
-    <h4>{{ article.title }}
+    <h4><!--feed bookmark-->
+        <small>
+            <a href="/feeds/favorites/{{ article._id }}">
+                <i class="{% if article._favorite===true %}icon-star{% else %}icon-star-empty{% endif %}"></i></a>
+        </small>
+        <!-- article title -->
+        <a target="_blank" href="{{ article.link }}">{{ article.title }}</a>
         <a target="_blank" href="{{ article.link }}">
             <i class="icon-share pull-right"></i></a>
-        </h4>
-        <div>
-            {% for category in article.categories %}
-            <a href="/articles/bytags/{{ category|url_encode }}">{{ category }}</a>
-            {% endfor %}
-        </div>
-
-        <p>{{ article.description|raw }}</p>
+    </h4>
+    <div>
+        {% for category in article.categories %}
+            <a href="/feeds/articles/bytags/{{ category|url_encode }}">{{ category }}</a>
+        {% endfor %}
     </div>
-    {% endblock %}
+    <p>{{ article.description|raw }}</p>
+{% endblock %}

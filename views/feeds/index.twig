@@ -2,7 +2,7 @@
 {% block content %}
     <!-- MAIN -->
     <div class="row">
-        <form action="/search" class="form-search">
+        <form action="/search" class="form-search span12">
             <input placeholder="Search" class="input-xxlarge" name="q" id="q" type="text">
             <input type="submit" class="btn" value="Search">
         </form>
@@ -10,51 +10,82 @@
     <div class="row">
         <div class="span2">
             {% block left %}
-                <form action="/feeds/suscribe" method="POST">
+                <!-- SUBSCRIBE FORM -->
+                <form action="/feeds/suscribe" method="POST" id="feed-subscribe" name="feed-suscribe">
                     <label for="url">Suscribe a feed</label>
                     <input type="text" name="url" id="url" class="input-block-level"/>
-                    <input type="submit" value="Suscribe" class="btn">
+                    <input type="submit" value="Suscribe" class="btn btn-primary">
                 </form>
-                <ul class="unstyled ">
-                    {% for feed in feeds %}
-                        <li class="overflow-hidden feed-list i-over">
-                            <img src="{{ feed.faviconurl }}" style="width=16px;height=16px;">
-                            <a title="{{ feed.title }}"
-                               href="/feeds/byxmlurl/{{ feed.xmlurl|url_encode }}">
-                                {{ feed.title|substring(0,20) }} </a>
-                            <a title="unsuscribe to {{ feed.xmlurl }}" href="/feeds/unsuscribe/{{ feed._id }}">
-                                <i class="icon-remove"></i>
-                            </a>
-                        </li>
-                    {% endfor %}
+                <h5>
+                    <small>Home</small>
+                </h5>
+                <!-- LEFT MENU -->
+                <ul class="unstyled">
+                    <li><a class="font-small" href="/feeds">All items</a>
+                        <small class="muted font-small">({{ settings.article_count }})</small>
+                    </li>
+                    <li><a class="font-small" href="/feeds/favorites">Starred Items</a>
+                    <span class="muted font-small">({{ settings.favorite_count }})</span></li>
+                    <li><a class="font-small" href="/feeds/articles/unread">Unread Items</a>
+                        <small class="muted font-small">({{ settings.unread_count }})</small>
+                    </li>
                 </ul>
+                <h5>
+                    <small>Subscriptions</small>
+                </h5>
+                <div>
+                    <!-- SUBSCRIPTIONS LIST -->
+                    <ul class="unstyled">
+                        {% for feed in feeds %}
+                            <li class="feed-list i-over">
+                                <a title="{{ feed.title }}" class="overflow-hidden "
+                                   href="/feeds/{{ feed._id }}"> <img src="{{ feed.favicon }}"
+                                                                      class="favicon">
+                                    {{ feed.title|substring(0,18) }}</a>
+                                <a title="unsuscribe to {{ feed.xmlurl }}" href="/feeds/unsuscribe/{{ feed._id }}">
+                                    <i class="icon-remove pull-right"></i>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             {% endblock %}
         </div>
-        <div class="span10 ">
+        <div class="span10">
             {% block center %}
-                <ul class="unstyled">
-                    {% for article in articles %}
-                        <li>
-                            <h5>
-                                <!-- feed title -->
-                                <small class="overflow-hidden" style="width:200px;display:inline-block;">
-                                    <a href="/feeds/byxmlurl/{{ article.meta.xmlurl|url_encode }}">
-                                        {{ article.meta.title }}</a></small>
-                                <!-- article title -->
-                                <a href="/articles/{{ article.id }}">
-                                    {{ article.title|substring(0,90) }}.</a>
-                                <!-- icon open -->
-                                <a class="pull-right"
-                                   target="_blank" href="{{ article.link }}"
-                                   title="open {{ article.link }}">&nbsp;
-                                    <i class="icon-share "></i></a>
-                                <!--date -->
-                                <small class="pull-right">
-                                    {{ article.pubDate|date('Y-M-d H:i') }}</small>
-                            </h5>
-                        </li>
-                    {% endfor %}
-                </ul>
+                <!-- articles -->
+                {% if articles|length <= 0 %}
+                    <h3>No articles found yet , please subscribe a feed</h3>
+                {% else %}
+                    <ul class="unstyled nav nav-list">
+                        {% for article in articles %}
+                            <li {% if article._read %}class="article-read"{% endif %}>
+                                <h5>
+                                    <!--feed bookmark-->
+                                    <a href="/feeds/favorites/{{ article._id }}">
+                                        <i class="{% if article._favorite===true %}icon-star{% else %}icon-star-empty{% endif %}"></i>
+                                    </a>
+                                    <!-- feed title -->
+                                    <small class="overflow-hidden muted"
+                                           style="max-width:150px;display:inline-block;">
+                                        {{ article.meta.title }}
+                                    </small>
+                                    <!-- article title -->
+                                    <a href="/feeds/articles/{{ article.id }}" class="overflow-hidden">
+                                        {{ article.title|substring(0,90) }}.</a>
+                                    <!-- icon open -->
+                                    <a class="pull-right"
+                                       target="_blank" href="{{ article.link }}"
+                                       title="open {{ article.link }}">&nbsp;
+                                        <i class="icon-share "></i></a>
+                                    <!--date -->
+                                <span class="font-small muted pull-right" title="{{ article.pubDate|date("r") }}">
+                                    {{ article.pubDate|date('M D, Y') }}</span>
+                                </h5>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             {% endblock %}
         </div>
     </div>

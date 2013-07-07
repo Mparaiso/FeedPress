@@ -15,6 +15,8 @@ feeds = require('./routes/feeds');
 
 articles = require('./routes/articles');
 
+favorites = require('./routes/favorites');
+
 Pimple = require('pimple');
 
 Config = require('./lib/config');
@@ -25,6 +27,10 @@ path = require('path');
 
 app = express();
 
+var everythingIsAFunction = function (a) {
+    return typeof a === "function"
+}
+
 app.map = function (routes, prefix) {
     var route, value;
     prefix = prefix || "";
@@ -32,20 +38,28 @@ app.map = function (routes, prefix) {
         value = routes[route];
         switch (typeof value) {
             case "object":
-                this.map(value, prefix + route);
+                if (value instanceof Array && value.every(everythingIsAFunction)) {
+                    // if array , treat all the args as middleware except the last ( controller )
+                    value.unshift(prefix);
+                    app[route].apply(app, value);
+                } else {
+                    app.map(value, prefix + route);
+                }
                 break;
             case "function":
-                app[route](prefix, value);
+                app[route].call(app, prefix, value);
+                break;
         }
     }
 };
 
 app.set('port', process.env.PORT || 3000);
-
+app.set("title", "FeedPress!");
 app.set('views', __dirname + '/views');
+app.set('view engine', 'html');
 
 /* Configuration du conteneur d'injection de dépendance*/
-app.DI = new Pimple;
+app.DI = new Pimple();
 app.DI.set("dispatcher", app);
 app.DI.register(Config);
 
@@ -57,8 +71,6 @@ consolidate = require("consolidate");
 swig = require('swig');
 
 app.engine('.twig', consolidate.swig);
-
-app.set('view engine', 'html');
 
 swig.init({
     root:__dirname + "/views/",
@@ -78,13 +90,44 @@ swig.init({
     }
 });
 
-app.set('views', __dirname + "/views/");
+
+/*
+ MY MIDDLEWARE
+ */
+
+var countArticles = function (req, res, next) {
+    req.app.DI.logger.log("counting articles");
+    var db = req.app.DI.db;
+    return db.model("Article").count(function (err, result) {
+        req.app.set("article_count", result);
+        next();
+    });
+}
+var countStared = function (req, res, next) {
+    req.app.DI.logger.log("counting stared");
+    var db = req.app.DI.db;
+    return db.model("Article").count({_favorite:true}, function (err, result) {
+        req.app.set("favorite_count", result);
+        next();
+    });
+}
+
+var countUnread = function (req, res, next) {
+    req.app.DI.logger.log("counting unread");
+    var db = req.app.DI.db;
+    return db.model("Article").count({_read:null}, function (err, result) {
+        req.app.set("unread_count", result || 0);
+        next();
+    });
+}
+
+app.use("/feeds", countArticles);
+app.use("/feeds", countStared);
+app.use("/feeds", countUnread);
 
 /*
  MIDDLEWARES
  */
-
-
 app.use(express.favicon());
 
 app.use(express.logger('dev'));
@@ -99,9 +142,7 @@ app.use(express.session());
 
 app.use(app.router);
 
-app.use(require('less-middleware')({
-    src:__dirname + '/public'
-}));
+app.use(require('less-middleware')({src:__dirname + '/public'}));
 
 app.use(express["static"](path.join(__dirname, 'public')));
 
@@ -116,66 +157,62 @@ if ('development' === app.get('env')) {
     });
 }
 
-
-/*
- ROUTES
- */
-app.all('/feeds/unsuscribe/:objectid', feeds.unsuscribe);
+app.use("/miniapp", require("./miniapp").router);
 
 app.map({
-    '/':{
-        all:feeds.index
-    },
-    '/feeds':{
-        '/byxmlurl/:xmlurl':{
-            all:feeds.byXmlUrl
+        '/':{
+            all:[countArticles, countStared, countUnread, feeds.index]
         },
-        '/suscribe':{
-            post:feeds.suscribe
+        '/feeds':{
+            '/articles':{
+                '/unread':{
+                    all:articles.unread
+                },
+                '/bytags/:tag':{
+                    all:feeds.byTags
+                },
+                '/:id':{
+                    all:articles.read
+                }
+            },
+            '/suscribe':{
+                post:feeds.suscribe
+            },
+            '/unsuscribe':{
+                all:feeds.unsuscribe
+            },
+            '/refresh':{
+                all:feeds.refresh
+            },
+            '/favorites/:id':{
+                all:favorites.toggleFavorite
+            },
+            '/favorites':{
+                all:favorites.index
+            },
+            '/:id':{
+                all:feeds.read
+            },
+            all:feeds.index
         },
-        '/refresh':{
-            all:feeds.refresh
+        '/search':{
+            all:feeds.search
         },
-        '/:id':{
-            all:feeds.read
+        '/error':{
+            all:routes.index
         },
-        all:feeds.index
-    },
-    '/articles':{
-        '/bytags/:tag':{
-            all:feeds.byTags
-        },
-        '/:id':{
-            all:articles.read
+        '/settings':{
+            '/import':{
+                post:settings.import
+            },
+            all:settings.index
         }
-    },
-    '/search':{
-        all:feeds.search
-    },
-    '/error':{
-        all:routes.index
-    },
-    '/settings':{
-        '/import':{
-            post:settings.import
-        },
-        all:settings.index
     }
-});
+);
 
-/*
- MY MIDDLEWARE
- */
-app.use(function (req, res, next) {
-    res.set("Cache-Control", "public");
-    res.set("X-Powered-By", "Me-Myself-And-I");
-    return next();
-});
 
 server = http.createServer(app).listen(app.get('port'), function () {
     return console.log('Express server listening on port ' + app.get('port'));
 });
 
-app.on("something", (function () {
-    return console.log("hi");
-}));
+

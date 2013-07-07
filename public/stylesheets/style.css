@@ -1,54 +1,42 @@
-@light-gray: #EEE;
-
 * {
   font-family: 'Open sans', Cantarell, Helvetica, Arial, sans-serif;
 }
-
 body {
   font-size: 100%;
 }
-
 .favicon {
   width: 16px !important;
   height: 16px !important;
 }
-
 .font-small {
   font-size: 12px;
 }
-
 .overflow-hidden {
   overflow-x: hidden;
   white-space: nowrap;
   border: none;
 }
-
 .clear-left {
   clear: left;
 }
-
 .no-left-margin {
   margin-left: 0;
   padding-left: 0;
 }
-
 .feed-list {
   font-size: 80%;
 }
-
 .i-over i {
   opacity: 0;
   visibility: hidden !important;
 }
-
 .i-over:hover i {
   opacity: 1;
   visibility: visible !important;
 }
-
-.article-read{
-  background-color: @light-gray;
+.article-read {
+  background-color: #eeeeee;
 }
-.main{
-  min-height:480px;
+.main {
+  min-height: 480px;
 }
