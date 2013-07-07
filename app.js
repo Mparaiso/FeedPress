@@ -87,8 +87,8 @@ app.engine('.twig', consolidate.swig);
 swig.init({
     root:__dirname + "/views/",
     allowErrors:true,
-    cache: true,
-    encoding: 'utf8',
+    cache:true,
+    encoding:'utf8',
     extensions:{
     },
     filters:{
@@ -115,7 +115,7 @@ var countArticles = function (req, res, next) {
         req.app.set("article_count", result);
         next();
     });
-}
+};
 var countStared = function (req, res, next) {
     req.app.DI.logger.log("counting stared");
     var db = req.app.DI.db;
@@ -123,7 +123,7 @@ var countStared = function (req, res, next) {
         req.app.set("favorite_count", result);
         next();
     });
-}
+};
 
 var countUnread = function (req, res, next) {
     req.app.DI.logger.log("counting unread");
@@ -134,9 +134,19 @@ var countUnread = function (req, res, next) {
     });
 }
 
+var fetchFeeds = function (req, res, next) {
+    var db=req.app.DI.db;
+    return db.model("Feed").find({}, "title xmlurl favicon", function (err, feeds) {
+        if (err)req.app.DI.logger.log("error form fetchFeeds", err);
+        if (feeds)app.locals.feeds = feeds;
+        next();
+    });
+};
+
 app.use("/feeds", countArticles);
 app.use("/feeds", countStared);
 app.use("/feeds", countUnread);
+app.use("/feeds", fetchFeeds);
 
 app.use(express.favicon());
 
@@ -173,7 +183,7 @@ if ('development' === app.get('env')) {
 
 app.map({
         '/':{
-            all:[countArticles, countStared, countUnread, feeds.index]
+            all:[countArticles, countStared, countUnread,fetchFeeds, feeds.index]
         },
         '/feeds':{
             '/articles':{
