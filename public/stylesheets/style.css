@@ -1,5 +1,6 @@
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,500);
 * {
-  font-family: 'Open sans', Cantarell, Helvetica, Arial, sans-serif;
+  font-family: Tahoma, Arial, sans-serif;
 }
 body {
   font-size: 100%;
@@ -39,4 +40,10 @@ body {
 }
 .main {
   min-height: 480px;
+}
+* {
+  border-radius: 0 !important;
+}
+.brand {
+  font-family: Georgia, "Times New Roman", sans-serif !important;
 }
