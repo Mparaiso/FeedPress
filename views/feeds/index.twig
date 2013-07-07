@@ -66,13 +66,13 @@
                                         <i class="{% if article._favorite===true %}icon-star{% else %}icon-star-empty{% endif %}"></i>
                                     </a>
                                     <!-- feed title -->
-                                    <small class="overflow-hidden muted"
-                                           style="max-width:150px;display:inline-block;">
+                                    <small class="overflow-hidden muted" title="{{article.meta.title}}"
+                                           style="width:100px;display:inline-block;">
                                         {{ article.meta.title }}
                                     </small>
                                     <!-- article title -->
                                     <a href="/feeds/articles/{{ article.id }}" class="overflow-hidden">
-                                        {{ article.title|substring(0,90) }}.</a>
+                                        {{ article.title|substring(0,100) }}.</a>
                                     <!-- icon open -->
                                     <a class="pull-right"
                                        target="_blank" href="{{ article.link }}"
