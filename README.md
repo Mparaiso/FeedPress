@@ -1,6 +1,8 @@
 FEEDPRESS!
 ===========
 
+####Status :work in progress
+
 ###Live Demo
 
 http://feedpress.herokuapp.com/
