@@ -25,7 +25,7 @@
                     <option {% if category._id == feed._category %}
                         selected
                     {% endif %}
-                            value="{{ category._id }}">{{ category.label }}</option>
+                            value="{{ category._id }}">{{ category.title }}</option>
                 {% endfor %}
             </select>
             <label for="category_new">or create a new category:
