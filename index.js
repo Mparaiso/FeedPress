@@ -69,6 +69,7 @@ app.set("title", "FeedPress!");
 app.set("author", "Mparaiso");
 app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
+app.set('project_url','https://github.com/Mparaiso/FeedPress');
 
 /**
  * Dependency injection container
@@ -175,7 +176,7 @@ app.map({
                 all:favorites.index
             },
             '/edit/:id':{
-                all:[middlewares.createCategory,feeds.edit]
+                all:[middlewares.createCategory, feeds.edit]
             },
             '/:id':{
                 get:feeds.read
@@ -194,12 +195,15 @@ app.map({
     }
 );
 
-/**
- * application bootstrap
- */
-server = http.createServer(app).listen(app.get('port'), function () {
-    return console.log('Express server listening on port ' + app.get('port'));
-});
 
+if (!module.parent) {
+    /**
+     * run the app
+     */
+    server = http.createServer(app).listen(app.get('port'), function () {
+        return console.log('Express server listening on port ' + app.get('port'));
+    });
 
-
+} else {
+    module.exports = app;
+}

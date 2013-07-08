@@ -12,11 +12,14 @@
     <div class="navbar navbar-inverse">
         <div class="navbar-inner">
             <div class="container">
-                <a class="brand" href="/">{{ settings.title }}
-                    <small class='font-small'>{{ settings.author }}</small>
+                <a class="brand" href="/">{{ settings.title }}<small class="font-small">By Mparaiso</small>
                 </a>
+
                 <ul class="nav pull-right">
                     <li><a href="/settings">Settings</a></li>
+                    <li><a href="{{ settings.project_url }}">
+                        About
+                    </a></li>
                 </ul>
             </div>
         </div>

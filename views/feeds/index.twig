@@ -36,14 +36,14 @@
                     <small>Subscriptions</small>
                 </h5>
                 <div>
-                    <!-- CATEGORY -->
-                    <ul class="unstyled" style="list-style-type: none">
+                    <!-- CATEGORIES  -->
+                    <ul class="unstyled " style="list-style-type: none">
                         {% for category in categories %}
                             <li>
-                                <small class="font-small"><i class=" icon-folder-close"></i>
+                                <small class="font-small"><i class=" icon-folder-open"></i>
                                     {{ category.title }}</small>
                                 {% if category._feeds %}
-                                    <ul>
+                                    <ul class="unstyled category-feed-list">
                                         {% for feed in category._feeds %}
                                             {% include "includes/feed-list-item.twig" %}
                                         {% endfor %}
@@ -69,6 +69,9 @@
                 {% if articles|length <= 0 %}
                     <h3>No articles found yet , please subscribe a feed</h3>
                 {% else %}
+                    {% if subtitle %}
+                    <div class="breadcrumb">{{ subtitle }}</div>
+                    {% endif %}
                     {% include 'includes/paginator.twig' %}
                     <ul class="unstyled nav nav-list">
                         {% for article in articles %}

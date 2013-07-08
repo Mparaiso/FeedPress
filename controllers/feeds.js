@@ -51,7 +51,7 @@ module.exports = {
         var db = req.app.DI.db;
         return db.model('Article').findByFeedId(id, function (err, articles) {
             if (err) return res.send(500, arguments);
-            return res.render("feeds/index.twig", { articles:articles, feed_id:id});
+            return res.render("feeds/index.twig", { articles:articles, feed_id:id,subtitle:articles[0]._feed.title});
         });
     },
     /**
@@ -64,7 +64,7 @@ module.exports = {
         var tags = [req.params.tag];
         db.model('Article').findByTags(tags, function (err, articles) {
             if (err)  return res.send(500, err);
-            return res.render("feeds/index.twig", {articles:articles});
+            return res.render("feeds/index.twig", {articles:articles, subtitle:"Tags: " + tags.join(" ")});
         });
     },
     /**
@@ -97,7 +97,7 @@ module.exports = {
             , q = req.query.q || "";
         db.model('Article').search(q, function (err, articles) {
             if (err) return  res.send(500, err);
-            return res.render("feeds/index.twig", {articles:articles});
+            return res.render("feeds/index.twig", {articles:articles, subtitle:"Search : \"" + q + " \""});
         });
 
     },
