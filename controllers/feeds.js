@@ -7,13 +7,19 @@ module.exports = {
         return "[object FeedCtrl]"
     },
     index:function (req, res) {
-        var db = req.app.DI.db;
-        db.model('Article').findAllAndSortByPubDateDesc(function (err, articles) {
+        var params = {}, skip, last, db = req.app.DI.db;
+        params.limit = 30;
+        last = Math.floor(res.locals.article_count / params.limit);
+        skip = req.query.skip < last && req.query.skip > 0 ? req.query.skip : 0
+        params.skip = skip * params.limit;
+        db.model('Article').findAllAndSortByPubDateDesc(params, function (err, articles) {
             if (err) {
                 return res.send(500, arguments);
             } else {
-                res.render("feeds/index.twig", {
-                    articles:articles
+                return res.render("feeds/index.twig", {
+                    articles:articles,
+                    skip:skip,
+                    last:last
                 });
             }
         });
@@ -75,8 +81,9 @@ module.exports = {
             } else {
                 req.app.DI.logger.log({message:"All feeds have been refreshed"})
             }
+            res.redirect("/");
         });
-        res.redirect("/");
+
     },
     unsubscribe:function (req, res) {
         var db = req.app.DI.db;
@@ -96,10 +103,10 @@ module.exports = {
     },
     edit:function (req, res) {
         var category, errors, db = req.app.DI.db, id = req.params.id;
-        db.model("Feed").findById(id, function (err, feed) {
+        db.model("Feed").findOne({_id:id}, function (err, feed) {
             if (err || (!feed))return res.send(500, arguments);
             if (req.method == "POST") {
-                feed.title = req.body.title?req.body.title.trim():feed.original_title ;
+                feed.title = req.body.title ? req.body.title.trim() : feed.original_title;
                 feed._category = req.body.category ? req.body.category : feed._category;
                 return feed.save(function (err) {
                     if (!err) {

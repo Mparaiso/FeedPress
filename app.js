@@ -19,6 +19,8 @@ articles = require('./controllers/articles');
 
 favorites = require('./controllers/favorites');
 
+stream = require("./controllers/stream");
+
 Pimple = require('pimple');
 
 Config = require('./lib/config');
@@ -98,6 +100,12 @@ swig.init({
                 result = "".substring.call(input, start, length);
             }
             return result;
+        },
+        is_undefined:function (input) {
+            return typeof input === "undefined";
+        },
+        plus:function (input, number) {
+            return +input + number
         }
     }
 });
@@ -111,7 +119,7 @@ var countArticles = function (req, res, next) {
     req.app.DI.logger.log("counting articles");
     var db = req.app.DI.db;
     return db.model("Article").count(function (err, result) {
-        req.app.set("article_count", result);
+        res.locals.article_count = result;
         next();
     });
 };
@@ -135,7 +143,7 @@ var countUnread = function (req, res, next) {
 
 var fetchFeeds = function (req, res, next) {
     var db = req.app.DI.db;
-    return db.model("Feed").find({}, "title _nice_name xmlurl favicon", function (err, feeds) {
+    return db.model("Feed").find({_category:{$exists:false}}, "title _nice_name xmlurl favicon", function (err, feeds) {
         if (err)req.app.DI.logger.log("error form fetchFeeds", err);
         if (feeds)app.locals.feeds = feeds;
         next();
@@ -146,7 +154,7 @@ var fetchCategories = function (req, res, next) {
     var db = req.app.DI.db;
     db.model("Category").find().populate({path:'_feeds', select:'_id title xmlurl favicon'}).exec(
         function (err, categories) {
-            err?(console.log(err)):(res.locals.categories = categories);
+            err ? (console.log(err)) : (res.locals.categories = categories);
             next();
         }
     );
@@ -156,13 +164,23 @@ var createCategory = function (req, res, next) {
     if (req.method == "POST" && req.body.category_new) {
         var category = {title:req.body.category_new};
         return req.app.DI.db.model("Category").update({title:category.title}, category, {upsert:true}, function (err) {
-            err ? (req.app.DI.logger.log("error from createCategory", err)) : ( req.body._category = category._id);
+            if (err) {
+                (req.app.DI.logger.log("error from createCategory", err))
+            } else {
+                ( req.body.category = category._id);
+            }
             return next();
         });
     } else {
         return next();
     }
 };
+
+app.use("/feeds", countArticles);
+app.use("/feeds", countStared);
+app.use("/feeds", countUnread);
+app.use("/feeds", fetchFeeds);
+app.use("/feeds", fetchCategories);
 
 app.use(express.favicon());
 
@@ -192,11 +210,6 @@ if ('development' === app.get('env')) {
     });
 }
 
-app.use("/feeds", countArticles);
-app.use("/feeds", countStared);
-app.use("/feeds", countUnread);
-app.use("/feeds", fetchFeeds);
-app.use("/feeds", fetchCategories);
 
 /**
  * ROUTES
@@ -236,7 +249,7 @@ app.map({
                 all:favorites.index
             },
             '/edit/:id':{
-                all:[ fetchCategories, countArticles, countStared, countUnread, fetchFeeds,createCategory, feeds.edit]
+                all:[ fetchCategories, countArticles, countStared, countUnread, fetchFeeds, createCategory, feeds.edit]
             },
             '/:id':{
                 get:feeds.read
@@ -248,6 +261,9 @@ app.map({
                 post:settings.import
             },
             all:settings.index
+        },
+        '/stream/:url':{
+            get:stream.index
         }
     }
 );
@@ -256,7 +272,6 @@ app.map({
  * application bootstrap
  */
 server = http.createServer(app).listen(app.get('port'), function () {
-    console.log(app.routes);
     return console.log('Express server listening on port ' + app.get('port'));
 });
 

@@ -22,7 +22,7 @@
                 <!-- LEFT MENU -->
                 <ul class="unstyled">
                     <li><a class="font-small" href="/feeds">All items</a>
-                        <small class="muted font-small">({{ settings.article_count }})</small>
+                        <small class="muted font-small">({{ article_count }})</small>
                     </li>
                     <li><a class="font-small" href="/feeds/favorites">Starred Items</a>
                         <span class="muted font-small">({{ settings.favorite_count }})</span></li>
@@ -37,10 +37,11 @@
                 </h5>
                 <div>
                     <!-- CATEGORY -->
-                    <h6 class="muted">Categories</h6>
                     <ul class="unstyled" style="list-style-type: none">
                         {% for category in categories %}
-                            <li>{{ category.title }}
+                            <li>
+                                <small class="font-small"><i class=" icon-folder-close"></i>
+                                    {{ category.title }}</small>
                                 {% if category._feeds %}
                                     <ul>
                                         {% for feed in category._feeds %}
@@ -68,11 +69,13 @@
                 {% if articles|length <= 0 %}
                     <h3>No articles found yet , please subscribe a feed</h3>
                 {% else %}
+                    {% include 'includes/paginator.twig' %}
                     <ul class="unstyled nav nav-list">
                         {% for article in articles %}
                             {% include "includes/article-list-item.twig" %}
                         {% endfor %}
                     </ul>
+                    {% include 'includes/paginator.twig' %}
                 {% endif %}
             {% endblock %}
         </div>

@@ -1,0 +1,12 @@
+<div class="pagination pagination-mini text-center">
+    <ul class="font-small">
+        <li  {% if skip == 0 or skip|is_undefined %} class="disabled"  {% endif %}>
+            <a href="?&skip=0">first</a></li>
+        <li {% if skip == 0 or skip|is_undefined %} class="disabled"  {% endif %}>
+            <a href="?&skip={{ skip|plus(-1) }}">prev</a></li>
+        <li><a href="">{{ skip|plus(1) }}</a></li>
+        <li><a href="?&skip={{ skip|plus(1) }}">next</a></li>
+        <li  {% if skip >= last %} class="disabled" {% endif %}>
+            <a href="?&skip={{ last }}">last</a></li>
+    </ul>
+</div>
