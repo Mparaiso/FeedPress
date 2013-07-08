@@ -34,7 +34,7 @@ var everythingIsAFunction = function (a) {
 }
 
 /**
- * Helps - routes with a single object
+ * Helper : mount routes with a single object
  * @param routes
  * @param prefix
  */
@@ -144,13 +144,9 @@ var fetchFeeds = function (req, res, next) {
 
 var fetchCategories = function (req, res, next) {
     var db = req.app.DI.db;
-    db.model("Category").find().populate({path:'_feeds', select:'_id title xmlurl'}).exec(
+    db.model("Category").find().populate({path:'_feeds', select:'_id title xmlurl favicon'}).exec(
         function (err, categories) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.locals.categories = categories;
-            }
+            err?(console.log(err)):(res.locals.categories = categories);
             next();
         }
     );
@@ -215,13 +211,13 @@ app.map({
             },
             '/articles':{
                 '/unread':{
-                    all:articles.unread
+                    get:articles.unread
                 },
                 '/bytags/:tag':{
-                    all:feeds.byTags
+                    get:feeds.byTags
                 },
                 '/:id':{
-                    all:articles.read
+                    get:articles.read
                 }
             },
             '/subscribe':{
@@ -229,9 +225,6 @@ app.map({
             },
             '/unsubscribe/:id':{
                 all:feeds.unsubscribe
-            },
-            '/edit/:id':{
-                all:[fetchCategories, createCategory, feeds.edit]
             },
             '/refresh':{
                 all:feeds.refresh
@@ -242,8 +235,11 @@ app.map({
             '/favorites':{
                 all:favorites.index
             },
+            '/edit/:id':{
+                all:[ fetchCategories, countArticles, countStared, countUnread, fetchFeeds,createCategory, feeds.edit]
+            },
             '/:id':{
-                all:feeds.read
+                get:feeds.read
             },
             all:feeds.index
         },
@@ -260,7 +256,9 @@ app.map({
  * application bootstrap
  */
 server = http.createServer(app).listen(app.get('port'), function () {
+    console.log(app.routes);
     return console.log('Express server listening on port ' + app.get('port'));
 });
+
 
 

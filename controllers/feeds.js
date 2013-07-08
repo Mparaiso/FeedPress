@@ -43,7 +43,7 @@ module.exports = {
     read:function (req, res) {
         var id = req.params.id;
         var db = req.app.DI.db;
-        db.model('Article').findByFeedId(id, function (err, articles) {
+        return db.model('Article').findByFeedId(id, function (err, articles) {
             if (err) return res.send(500, arguments);
             return res.render("feeds/index.twig", { articles:articles, feed_id:id});
         });

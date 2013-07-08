@@ -38,13 +38,13 @@
                 <div>
                     <!-- CATEGORY -->
                     <h6 class="muted">Categories</h6>
-                    <ul class="unstyled font-small">
+                    <ul class="unstyled" style="list-style-type: none">
                         {% for category in categories %}
                             <li>{{ category.title }}
-                                {% if category._feeds and category._feeds|length>0 %}
+                                {% if category._feeds %}
                                     <ul>
                                         {% for feed in category._feeds %}
-                                            <li>{{ feed.title }}</li>
+                                            {% include "includes/feed-list-item.twig" %}
                                         {% endfor %}
                                     </ul>
                                 {% endif %}
