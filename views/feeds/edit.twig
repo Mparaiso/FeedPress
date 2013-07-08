@@ -20,8 +20,8 @@
                 Select a Category
             </label>
             <select name="category" id="category">
+                <option value=""></option>
                 {% for category in categories %}
-                    <option value=""></option>
                     <option {% if category._id == feed._category %}
                         selected
                     {% endif %}
