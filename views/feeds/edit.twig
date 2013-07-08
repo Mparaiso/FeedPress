@@ -1,0 +1,39 @@
+{% extends 'feeds/index.twig' %}
+{% block center %}
+    <form action="" method="post">
+        {% if errors %}
+            <h5 class="error">Errors</h5>
+            <ul class='error'>
+                {% for message in errors.errors %}
+                    <li>message</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <fieldset>
+            <legend>Edit Feed <span class="muted">{{ feed.title }}</span></legend>
+            <label for="_nice_name">Name :
+            </label>
+            <input required
+                   type="text" name="title" id="_nice_name" value="{{ feed.title|default(feed.original_title) }}">
+
+            <label for="category">
+                Select a Category
+            </label>
+            <select name="category" id="category">
+                {% for category in categories %}
+                    <option value=""></option>
+                    <option {% if category._id == feed._category %}
+                        selected
+                    {% endif %}
+                            value="{{ category._id }}">{{ category.label }}</option>
+                {% endfor %}
+            </select>
+            <label for="category_new">or create a new category:
+            </label>
+            <input type="text" name="category_new" id="category_new">
+            <hr>
+            <input type="reset" value="Reset" class="btn">
+            <input type="submit" value="Edit" class="btn">
+        </fieldset>
+    </form>
+{% endblock %}

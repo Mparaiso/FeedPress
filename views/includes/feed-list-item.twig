@@ -1,10 +1,10 @@
 <li class="feed-list-item i-over {% if feed_id == feed._id %}active{% endif %}">
-    <a title="{{ feed.title }}" class="overflow-hidden "
-       href="/feeds/{{ feed._id }}"> <img src="{{ feed.favicon }}"
-                                          class="favicon">
+    <a title="{{ feed.original_title }}" class="overflow-hidden " href="/feeds/{{ feed._id }}">
+        <img src="{{ feed.favicon }}" class="favicon">
+        <!-- TITLE -->
         {{ feed.title|substring(0,18) }}</a>
         <span class="pull-right">
-    <a href="/feeds/edit" class="unstyled"><i class="icon-edit" title="edit {{ feed.title }}"></i></a>
+    <a href="/feeds/edit/{{ feed._id }}" class="unstyled"><i class="icon-edit" title="edit {{ feed.title }}"></i></a>
     <a class="unstyled" title="unsuscribe to {{ feed.xmlurl }}" href="/feeds/unsubscribe/{{ feed._id }}">
         <i class="icon-remove"></i>
     </a>

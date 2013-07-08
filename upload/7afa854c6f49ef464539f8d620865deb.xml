@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+    <head>
+        <title>Abonnements de mark dans Google Reader</title>
+    </head>
+    <body>
+        <outline text="BrokenBlog" title="BrokenBlog" type="rss"
+                 xmlUrl="http://blog.brokenfunction.com/feed/" htmlUrl="http://blog.brokenfunction.com"/>
+        <outline text="DBL-A Dev Blog" title="DBL-A Dev Blog" type="rss"
+                 xmlUrl="http://dev.dbl-a.com/feed/" htmlUrl="http://dev.dbl-a.com"/>
+        <outline text="Developpez.com" title="Developpez.com" type="rss"
+                 xmlUrl="http://www.developpez.com/index/rss" htmlUrl="http://www.developpez.com/index/rss"/>
+        <outline text="Hacker News" title="Hacker News" type="rss"
+                 xmlUrl="https://news.ycombinator.com/rss" htmlUrl="https://news.ycombinator.com/"/>
+        <outline text="Inchoo" title="Inchoo" type="rss"
+                 xmlUrl="http://feeds.feedburner.com/Inchoo" htmlUrl="http://inchoo.net"/>
+        <outline text="Penny Arcade Report" title="Penny Arcade Report"
+                 type="rss" xmlUrl="http://feeds.penny-arcade.com/pa-report"
+                 htmlUrl="http://www.penny-arcade.com/report"/>
+        <outline text="Recent Questions - Graphic Design Stack Exchange"
+                 title="Recent Questions - Graphic Design Stack Exchange"
+                 type="rss"
+                 xmlUrl="http://graphicdesign.stackexchange.com/feeds"
+                 htmlUrl="http://graphicdesign.stackexchange.com/questions"/>
+        <outline text="Speckyboy Design Magazine"
+                 title="Speckyboy Design Magazine" type="rss"
+                 xmlUrl="http://speckyboy.com/feed/" htmlUrl="http://speckyboy.com"/>
+        <outline text="The Electronic Farm" title="The Electronic Farm"
+                 type="rss"
+                 xmlUrl="http://theelectronicfarm.blogspot.com/feeds/posts/default"
+                 htmlUrl="http://theelectronicfarm.blogspot.com/"/>
+        <outline title="DESIGN" text="DESIGN">
+            <outline text="Aetuts+" title="Aetuts+" type="rss"
+                     xmlUrl="http://feedproxy.google.com/aetuts" htmlUrl="http://ae.tutsplus.com"/>
+            <outline text="Cgtuts+" title="Cgtuts+" type="rss"
+                     xmlUrl="http://feeds2.feedburner.com/Cgtuts" htmlUrl="http://cg.tutsplus.com"/>
+            <outline text="Creative Bloq" title="Creative Bloq"
+                     type="rss"
+                     xmlUrl="http://feeds.feedburner.com/CreativeBloq" htmlUrl="http://www.creativebloq.com"/>
+            <outline text="DesignModo" title="DesignModo" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/designmodo" htmlUrl="http://designmodo.com"/>
+            <outline text="Devlounge - Homepage Feed"
+                     title="Devlounge - Homepage Feed" type="rss"
+                     xmlUrl="http://www.devlounge.net/feed" htmlUrl="http://www.devlounge.net"/>
+            <outline text="Good-Tutorials: Newest Tutorials"
+                     title="Good-Tutorials: Newest Tutorials" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/good-tutorials-new" htmlUrl="http://www.good-tutorials.com"/>
+            <outline text="Six Revisions" title="Six Revisions"
+                     type="rss"
+                     xmlUrl="http://feeds.feedburner.com/SixRevisions" htmlUrl="http://sixrevisions.com"/>
+            <outline
+                    text="Tutorialized.com - Latest Tutorial Listings For Photoshop"
+                    title="Tutorialized.com - Latest Tutorial Listings For Photoshop"
+                    type="rss"
+                    xmlUrl="http://www.tutorialized.com/rss-feed-s-1.xml" htmlUrl="http://www.tutorialized.com/"/>
+            <outline text="Vectortuts+" title="Vectortuts+" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/vectortuts" htmlUrl="http://vector.tutsplus.com"/>
+        </outline>
+        <outline title="Javascript" text="Javascript">
+            <outline text="AddyOsmani.com | Articles for developers"
+                     title="AddyOsmani.com | Articles for developers"
+                     type="rss"
+                     xmlUrl="http://feeds.feedburner.com/addyosmani" htmlUrl="http://addyosmani.com/blog"/>
+            <outline text="JavaScript - O'Reilly Media"
+                     title="JavaScript - O'Reilly Media" type="rss"
+                     xmlUrl="http://feeds2.feedburner.com/oreilly/javascript"
+                     htmlUrl="http://oreilly.com/javascript/index.html"/>
+            <outline text="JavaScript Fundamentals | Codecademy"
+                     title="JavaScript Fundamentals | Codecademy" type="rss"
+                     xmlUrl="http://www.codecademy.com/blog.rss" htmlUrl="http://www.codecademy.com/blog"/>
+            <outline
+                    text="jQuery: The Write Less, Do More, JavaScript Library"
+                    title="jQuery: The Write Less, Do More, JavaScript Library"
+                    type="rss" xmlUrl="http://jquery.com/blog/feed/" htmlUrl="http://blog.jquery.com"/>
+        </outline>
+        <outline title="FLASH" text="FLASH">
+            <outline text="&quot;Share&quot; via haXe"
+                     title="&quot;Share&quot; via haXe" type="rss"
+                     xmlUrl="http://www.google.com/reader/public/atom/user/13356518299296258863/label/Share"
+                     htmlUrl="http://www.google.com/reader/view/user%2F13356518299296258863%2Flabel%2FShare"/>
+            <outline text="ActionScript 3 Tutorials"
+                     title="ActionScript 3 Tutorials" type="rss"
+                     xmlUrl="http://www.flashandmath.com/rss/flash_and_math.xml"
+                     htmlUrl="http://www.flashandmath.com/"/>
+            <outline text="ActionScript 3.0 Design Patterns"
+                     title="ActionScript 3.0 Design Patterns" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/as3dp/gQKb" htmlUrl="http://www.as3dp.com"/>
+            <outline text="ActionScript 3.0 Design Patterns"
+                     title="ActionScript 3.0 Design Patterns" type="rss"
+                     xmlUrl="http://www.as3dp.com/feed/" htmlUrl="http://www.as3dp.com"/>
+            <outline
+                    text="Activetuts+ | Browser app and game development tutorials, from ..."
+                    title="Activetuts+ | Browser app and game development tutorials, from ..."
+                    type="rss" xmlUrl="http://active.tutsplus.com/feed/" htmlUrl="http://hub.tutsplus.com"/>
+            <outline text="Adobe ActionScript Cookbook"
+                     title="Adobe ActionScript Cookbook" type="rss"
+                     xmlUrl="http://cookbooks.adobe.com/index.cfm?event=rss&amp;category=template&amp;entity=recipes"
+                     htmlUrl="http://cookbooks.adobe.com"/>
+            <outline
+                    text="ByteArray.org - Actionscript 3 Experiments and Flash Player love."
+                    title="ByteArray.org - Actionscript 3 Experiments and Flash Player love."
+                    type="rss" xmlUrl="http://www.bytearray.org/?feed=rss2" htmlUrl="http://www.bytearray.org"/>
+            <outline
+                    text="CASA Lib: An Open Source Code Library for ActionScript 2.0 &amp; 3.0"
+                    title="CASA Lib: An Open Source Code Library for ActionScript 2.0 &amp; 3.0"
+                    type="rss" xmlUrl="http://casalib.org/blog/rss/" htmlUrl="http://casalib.org/blog/"/>
+            <outline text="Coding on acid." title="Coding on acid."
+                     type="rss" xmlUrl="http://makc3d.wordpress.com/feed/" htmlUrl="http://makc3d.wordpress.com"/>
+            <outline text="EverythingFlex: Flex &amp; AIR"
+                     title="EverythingFlex: Flex &amp; AIR" type="rss"
+                     xmlUrl="http://blog.everythingflex.com/feed/" htmlUrl="http://blog.everythingflex.com"/>
+            <outline text="Flash Magazine" title="Flash Magazine"
+                     type="rss"
+                     xmlUrl="http://www.flashmagazine.com/syndicated/flashmag.rss"
+                     htmlUrl="http://www.flashmagazine.com/site/rss0.92/"/>
+            <outline text="kirupa.com" title="kirupa.com" type="rss"
+                     xmlUrl="http://www.kirupa.com/modular/kirupa.xml" htmlUrl="http://www.kirupa.com/"/>
+            <outline text="Lee Burrows" title="Lee Burrows" type="rss"
+                     xmlUrl="http://blog.leeburrows.com/feed/" htmlUrl="http://blog.leeburrows.com"/>
+            <outline text="leebrimelow.com" title="leebrimelow.com"
+                     type="rss" xmlUrl="http://theflashblog.com/?feed=rss2" htmlUrl="http://www.leebrimelow.com"/>
+            <outline text="Mike Chambers" title="Mike Chambers"
+                     type="rss"
+                     xmlUrl="http://feeds.feedburner.com/MikeChambers/" htmlUrl="http://www.mikechambers.com/blog"/>
+            <outline text="moockblog" title="moockblog" type="rss"
+                     xmlUrl="http://www.moock.org/blog/index.rdf" htmlUrl="http://www.moock.org/blog/"/>
+            <outline text="pv3d.org" title="pv3d.org" type="rss"
+                     xmlUrl="http://pv3d.org/feed/" htmlUrl="http://pv3d.org"/>
+            <outline text="Quasimondo" title="Quasimondo" type="rss"
+                     xmlUrl="http://www.quasimondo.com/index.xml" htmlUrl="http://www.quasimondo.com/"/>
+            <outline text="senocular.com" title="senocular.com"
+                     type="rss" xmlUrl="http://www.senocular.com/rss/" htmlUrl="http://www.senocular.com/"/>
+            <outline text="Tutorials - ActionScript.org"
+                     title="Tutorials - ActionScript.org" type="rss"
+                     xmlUrl="http://www.actionscript.org/resources/articlerss/cat/1/"
+                     htmlUrl="http://www.actionscript.org/resources"/>
+        </outline>
+        <outline title="www" text="www">
+            <outline text="A List Apart: The Full Feed"
+                     title="A List Apart: The Full Feed" type="rss"
+                     xmlUrl="http://www.alistapart.com/rss.xml" htmlUrl="http://alistapart.com"/>
+            <outline text="CSS-Tricks" title="CSS-Tricks" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/CssTricks" htmlUrl="http://css-tricks.com"/>
+            <outline text="Nettuts+" title="Nettuts+" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/nettuts" htmlUrl="http://net.tutsplus.com"/>
+        </outline>
+        <outline title="Other" text="Other">
+            <outline text="AllFacebook" title="AllFacebook" type="rss"
+                     xmlUrl="http://allfacebook.com/rss/" htmlUrl="http://allfacebook.com"/>
+            <outline text="Darcy Clarke" title="Darcy Clarke" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/DarcyClarkesBlog" htmlUrl="http://darcyclarke.me"/>
+            <outline text="developer-tech.com: Latest from the homepage"
+                     title="developer-tech.com: Latest from the homepage"
+                     type="rss" xmlUrl="http://www.developer-tech.com/feed/" htmlUrl="http://www.developer-tech.com/"/>
+            <outline text="DjangoTricks" title="DjangoTricks" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/djangotricks" htmlUrl="http://djangotricks.blogspot.com/"/>
+            <outline text="Flash PerfectionLast Added Tutorials"
+                     title="Flash PerfectionLast Added Tutorials" type="rss"
+                     xmlUrl="http://www.flashperfection.com/rss/latestTutorials.rss"
+                     htmlUrl="http://www.flashperfection.com"/>
+            <outline text="Free eBooks Download"
+                     title="Free eBooks Download" type="rss"
+                     xmlUrl="http://www.flasheditors.net/feed" htmlUrl="http://www.flasheditors.net"/>
+            <outline text="Herding Code" title="Herding Code" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/herdingcode" htmlUrl="http://herdingcode.com"/>
+            <outline text="HNpod" title="HNpod" type="rss"
+                     xmlUrl="http://hnpod.com/episodes.rss" htmlUrl="http://hnpod.com/"/>
+            <outline text="HTML5Rocks" title="HTML5Rocks" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/html5rocks"
+                     htmlUrl="http://pipes.yahoo.com/pipes/pipe.info?_id=647030be6aceb6d005c3775a1c19401c"/>
+            <outline text="Latest Adobe News" title="Latest Adobe News"
+                     type="rss"
+                     xmlUrl="http://weblogs.macromedia.com/mxna/xml/rss.cfm?query=byMostRecent&amp;languages=1"
+                     htmlUrl="http://feeds.adobe.com"/>
+            <outline text="LearnFlash.com Video Podcast"
+                     title="LearnFlash.com Video Podcast" type="rss"
+                     xmlUrl="http://www.learnflash.com/wp/feed/" htmlUrl="http://www.learnflash.com/wp"/>
+            <outline text="Pixel2Life.com: Latest 20 Tutorials"
+                     title="Pixel2Life.com: Latest 20 Tutorials" type="rss"
+                     xmlUrl="http://www.pixel2life.com/feeds/latest_20_tuts.xml" htmlUrl="http://www.pixel2life.com/"/>
+            <outline text="Remix Comps" title="Remix Comps" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/remixcomps" htmlUrl="http://www.remixcomps.com/feed.xml"/>
+            <outline text="SAI" title="SAI" type="rss"
+                     xmlUrl="http://feedproxy.google.com/typepad/alleyinsider/silicon_alley_insider"
+                     htmlUrl="http://www.businessinsider.com/sai"/>
+            <outline text="ServicesANGLE" title="ServicesANGLE"
+                     type="rss" xmlUrl="http://servicesangle.com/feed/" htmlUrl="http://servicesangle.com"/>
+            <outline text="Snippet Manager" title="Snippet Manager"
+                     type="rss"
+                     xmlUrl="https://silex-dsnippet.herokuapp.com/rss" htmlUrl="http://silex-dsnippet.herokuapp.com/"/>
+            <outline text="Tutorial KitLast Added Tutorials"
+                     title="Tutorial KitLast Added Tutorials" type="rss"
+                     xmlUrl="http://www.tutorialkit.com/rss/latestTutorials.rss" htmlUrl="http://www.tutorialkit.com"/>
+            <outline
+                    text="UML4AS - UML for ActionScript and Flex - News"
+                    title="UML4AS - UML for ActionScript and Flex - News"
+                    type="rss"
+                    xmlUrl="http://www.uml4as.com/flower-platform/home-uml4as.feed?type=rss"
+                    htmlUrl="http://www.uml4as.com/flower-platform/home-uml4as.html"/>
+            <outline text="VisualFXtuts.com" title="VisualFXtuts.com"
+                     type="rss" xmlUrl="http://visualfxtuts.com/feed/" htmlUrl="http://visualfxtuts.com"/>
+        </outline>
+        <outline title="NEWS" text="NEWS">
+            <outline text="Ars Technica" title="Ars Technica" type="rss"
+                     xmlUrl="http://feeds.arstechnica.com/arstechnica/index/" htmlUrl="http://arstechnica.com"/>
+            <outline text="InfoQ Personalized Feed for marc prades"
+                     title="InfoQ Personalized Feed for marc prades"
+                     type="rss"
+                     xmlUrl="http://www.infoq.com/rss/rss.action?token=ttTMyRH7XXKdDI5VLWazPgbGmwZYMKgj"
+                     htmlUrl="http://www.infoq.com"/>
+            <outline text="Nettuts+" title="Nettuts+" type="rss"
+                     xmlUrl="http://net.tutsplus.com/feed/" htmlUrl="http://net.tutsplus.com"/>
+            <outline text="ReadWrite" title="ReadWrite" type="rss"
+                     xmlUrl="http://www.readwriteweb.com/rss.xml" htmlUrl="http://readwrite.com"/>
+            <outline text="Reuters: Technology News"
+                     title="Reuters: Technology News" type="rss"
+                     xmlUrl="http://feeds.reuters.com/reuters/technologyNews" htmlUrl="http://www.reuters.com"/>
+            <outline text="SD Times Latest News"
+                     title="SD Times Latest News" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/SdTimesLatestNews" htmlUrl="http://www.sdtimes.com"/>
+            <outline text="Smashing Magazine Feed"
+                     title="Smashing Magazine Feed" type="rss"
+                     xmlUrl="http://rss1.smashingmagazine.com/feed/" htmlUrl="http://www.smashingmagazine.com/"/>
+            <outline text="TechCrunch" title="TechCrunch" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/Techcrunch" htmlUrl="http://techcrunch.com"/>
+            <outline text="The Next Web" title="The Next Web" type="rss"
+                     xmlUrl="http://feeds2.feedburner.com/thenextweb" htmlUrl="http://thenextweb.com"/>
+            <outline text="VentureBeat" title="VentureBeat" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/venturebeat" htmlUrl="http://venturebeat.com"/>
+        </outline>
+        <outline title="PODCAST" text="PODCAST">
+            <outline text="Javascript Jabber" title="Javascript Jabber"
+                     type="rss"
+                     xmlUrl="http://feeds.feedburner.com/JavascriptJabber" htmlUrl="http://javascriptjabber.com"/>
+            <outline text="Lately in JavaScript podcast"
+                     title="Lately in JavaScript podcast" type="rss"
+                     xmlUrl="http://www.jsclasses.org/blog/category/podcast/post/latest.rss"
+                     htmlUrl="http://www.jsclasses.org/blog/category/podcast/"/>
+        </outline>
+        <outline title="PHP" text="PHP">
+            <outline text="Gonzalo Ayuso | Web Architect"
+                     title="Gonzalo Ayuso | Web Architect" type="rss"
+                     xmlUrl="http://gonzalo123.com/feed/" htmlUrl="http://gonzalo123.com"/>
+            <outline
+                    text="Juan Treminio - Dallas PHP/MySQL Web Developer"
+                    title="Juan Treminio - Dallas PHP/MySQL Web Developer"
+                    type="rss" xmlUrl="http://jtreminio.com/feed.xml" htmlUrl="http://jtreminio.com"/>
+            <outline text="PHP Design Patterns"
+                     title="PHP Design Patterns" type="rss"
+                     xmlUrl="http://www.phpdesignpatterns.com/feed/" htmlUrl="http://www.phpdesignpatterns.com"/>
+            <outline text="PHP Design Patterns"
+                     title="PHP Design Patterns" type="rss"
+                     xmlUrl="http://www.php5dp.com/feed/" htmlUrl="http://www.php5dp.com"/>
+            <outline text="Whitewashing" title="Whitewashing" type="rss"
+                     xmlUrl="http://www.whitewashing.de/rss.xml" htmlUrl="http://www.whitewashing.de/"/>
+        </outline>
+        <outline title="MOBILE" text="MOBILE">
+            <outline text="VisionMobile" title="VisionMobile" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/Visionmobile" htmlUrl="http://www.visionmobile.com"/>
+        </outline>
+        <outline title="STACKOVERFLOW" text="STACKOVERFLOW">
+            <outline text="angularjs" title="angularjs" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/angularjs"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=angularjs&amp;amp;sort=active"/>
+            <outline text="backbone.js" title="backbone.js" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/backbone.js"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=backbone.js&amp;amp;sort=active"/>
+            <outline text="django" title="django" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/django"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=django&amp;amp;sort=active"/>
+            <outline text="doctrine" title="doctrine" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/doctrine"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=doctrine&amp;amp;sort=active"/>
+            <outline text="jquery" title="jquery" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/jquery"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=jquery&amp;amp;sort=active"/>
+            <outline text="oauth" title="oauth" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/oauth"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=oauth&amp;amp;sort=active"/>
+            <outline text="openid" title="openid" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/openid"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=openid&amp;amp;sort=active"/>
+            <outline text="opensearch" title="opensearch" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/opensearch"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=opensearch&amp;amp;sort=active"/>
+            <outline text="php" title="php" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/php"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=php&amp;amp;sort=active"/>
+            <outline text="python" title="python" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/python"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=python&amp;amp;sort=active"/>
+            <outline text="silex" title="silex" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/silex"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=silex&amp;amp;sort=active"/>
+            <outline text="symfony2" title="symfony2" type="rss"
+                     xmlUrl="http://stackoverflow.com/feeds/tag/symfony2"
+                     htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=symfony2&amp;amp;sort=active"/>
+        </outline>
+        <outline title="WebDesign" text="WebDesign">
+            <outline text="SitePoint" title="SitePoint" type="rss"
+                     xmlUrl="http://www.sitepoint.com/feed/" htmlUrl="http://www.sitepoint.com"/>
+            <outline text="Tutorialzine" title="Tutorialzine" type="rss"
+                     xmlUrl="http://feeds.feedburner.com/Tutorialzine" htmlUrl="http://tutorialzine.com"/>
+            <outline
+                    text="WebdesignerTrends - Ressources utiles pour le webdesign, actus du web, sélection de sites et de tutoriels"
+                    title="WebdesignerTrends - Ressources utiles pour le webdesign, actus du web, sélection de sites et de tutoriels"
+                    type="rss"
+                    xmlUrl="http://www.webdesignertrends.com/feed/" htmlUrl="http://www.webdesignertrends.com"/>
+        </outline>
+        <outline title="Python" text="Python">
+            <outline text="Django Dose Everything Feed"
+                     title="Django Dose Everything Feed" type="rss"
+                     xmlUrl="http://djangodose.com/everything/feed/"
+                     htmlUrl="http://www.google.com/reader/view/feed%2Fhttp%3A%2F%2Fdjangodose.com%2Feverything%2Ffeed%2F"/>
+            <outline
+                    text="Django-nonrel - NoSQL support for Django | All Buttons Pressed"
+                    title="Django-nonrel - NoSQL support for Django | All Buttons Pressed"
+                    type="rss"
+                    xmlUrl="http://feeds.feedburner.com/AllButtonsPressed" htmlUrl="http://www.allbuttonspressed.com/"/>
+            <outline text="DjangoGigs.com - All Gigs"
+                     title="DjangoGigs.com - All Gigs" type="rss"
+                     xmlUrl="http://djangogigs.com/feeds/gigs/" htmlUrl="https://djangogigs.com//"/>
+            <outline
+                    text="Latest Additions :: DjangoSites.org - Powered by Django"
+                    title="Latest Additions :: DjangoSites.org - Powered by Django"
+                    type="rss"
+                    xmlUrl="http://www.djangosites.org/rss/latest/" htmlUrl="http://djangosites.org/"/>
+            <outline text="Weblog | Django" title="Weblog | Django"
+                     type="rss"
+                     xmlUrl="https://www.djangoproject.com/rss/weblog/"
+                     htmlUrl="https://www.djangoproject.com/weblog/"/>
+        </outline>
+    </body>
+</opml>

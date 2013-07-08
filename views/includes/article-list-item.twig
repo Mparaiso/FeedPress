@@ -7,19 +7,18 @@
         <!-- feed title -->
         <small class="overflow-hidden muted" title="{{ article.meta.title }}"
                style="width:100px;display:inline-block;">
-            <a href="/feeds/{{ article._feed }}" class="muted">
-                {{ article.meta.title }}</a>
+            <a href="/feeds/{{ article._feed._id }}" class="muted">
+                {{ article._feed.title }}</a>
         </small>
         <!-- article title -->
         <a href="/feeds/articles/{{ article.id }}" class="overflow-hidden">
             {{ article.title|substring(0,95) }}.</a>
         <!-- icon open -->
-        <a class="pull-right"
-           target="_blank" href="{{ article.link }}"
-           title="open {{ article.link }}">&nbsp;
-            <i class="icon-share "></i></a>
+        <span class="pull-right">
+          <a target="_blank" href="{{ article.link }}" title="open {{ article.link }}">
+            <i class="icon-share "></i></a></span>
         <!--date -->
-                                <span class="font-small muted pull-right" title="{{ article.pubDate|date("r") }}">
+       <span class="font-small muted pull-right" title="{{ article.pubDate|date("r") }}">
                                     {{ article.pubDate|date('M D d, Y') }}</span>
     </h5>
 </li>

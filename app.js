@@ -11,8 +11,6 @@ var Config, Pimple, app, articles, consolidate, express, feeds, http, path, serv
 
 express = require('express');
 
-routes = require("./controllers");
-
 settings = require("./controllers/settings");
 
 feeds = require('./controllers/feeds');
@@ -88,7 +86,7 @@ app.engine('.twig', consolidate.swig);
 swig.init({
     root:__dirname + "/views/",
     allowErrors:true,
-    cache:true,
+    cache:false,
     encoding:'utf8',
     extensions:{
     },
@@ -137,17 +135,38 @@ var countUnread = function (req, res, next) {
 
 var fetchFeeds = function (req, res, next) {
     var db = req.app.DI.db;
-    return db.model("Feed").find({}, "title xmlurl favicon", function (err, feeds) {
+    return db.model("Feed").find({}, "title _nice_name xmlurl favicon", function (err, feeds) {
         if (err)req.app.DI.logger.log("error form fetchFeeds", err);
         if (feeds)app.locals.feeds = feeds;
         next();
     });
 };
 
-app.use("/feeds", countArticles);
-app.use("/feeds", countStared);
-app.use("/feeds", countUnread);
-app.use("/feeds", fetchFeeds);
+var fetchCategories = function (req, res, next) {
+    var db = req.app.DI.db;
+    db.model("Category").find().populate({path:'_feeds', select:'_id title xmlurl'}).exec(
+        function (err, categories) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.locals.categories = categories;
+            }
+            next();
+        }
+    );
+};
+
+var createCategory = function (req, res, next) {
+    if (req.method == "POST" && req.body.category_new) {
+        var category = {title:req.body.category_new};
+        return req.app.DI.db.model("Category").update({title:category.title}, category, {upsert:true}, function (err) {
+            err ? (req.app.DI.logger.log("error from createCategory", err)) : ( req.body._category = category._id);
+            return next();
+        });
+    } else {
+        return next();
+    }
+};
 
 app.use(express.favicon());
 
@@ -172,21 +191,28 @@ if ('development' === app.get('env')) {
 } else {
     app.use(function (err, req, res, next) {
         console.error(err.stack);
-        //return res.send(500, 'Something went wrong');
         res.set("Refresh", "3;/");
         return res.render('error.twig', {message:'Something went wrong, redirecting to home page'});
     });
 }
 
+app.use("/feeds", countArticles);
+app.use("/feeds", countStared);
+app.use("/feeds", countUnread);
+app.use("/feeds", fetchFeeds);
+app.use("/feeds", fetchCategories);
+
 /**
  * ROUTES
  */
-
 app.map({
         '/':{
-            all:[countArticles, countStared, countUnread, fetchFeeds, feeds.index]
+            all:[fetchCategories, countArticles, countStared, countUnread, fetchFeeds, feeds.index]
         },
         '/feeds':{
+            '/search':{
+                all:feeds.search
+            },
             '/articles':{
                 '/unread':{
                     all:articles.unread
@@ -204,8 +230,8 @@ app.map({
             '/unsubscribe/:id':{
                 all:feeds.unsubscribe
             },
-            '/edit':{
-                all:feeds.edit
+            '/edit/:id':{
+                all:[fetchCategories, createCategory, feeds.edit]
             },
             '/refresh':{
                 all:feeds.refresh
@@ -220,12 +246,6 @@ app.map({
                 all:feeds.read
             },
             all:feeds.index
-        },
-        '/search':{
-            all:feeds.search
-        },
-        '/error':{
-            all:routes.index
         },
         '/settings':{
             '/import':{

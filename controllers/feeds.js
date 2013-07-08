@@ -45,7 +45,7 @@ module.exports = {
         var db = req.app.DI.db;
         db.model('Article').findByFeedId(id, function (err, articles) {
             if (err) return res.send(500, arguments);
-            return res.render("feeds/index.twig", { articles:articles,feed_id:id});
+            return res.render("feeds/index.twig", { articles:articles, feed_id:id});
         });
     },
     /**
@@ -94,8 +94,28 @@ module.exports = {
         });
 
     },
-    streamIcon:function (req, res) {
-        var id = req.params.id;
+    edit:function (req, res) {
+        var category, errors, db = req.app.DI.db, id = req.params.id;
+        db.model("Feed").findById(id, function (err, feed) {
+            if (err || (!feed))return res.send(500, arguments);
+            if (req.method == "POST") {
+                feed.title = req.body.title?req.body.title.trim():feed.original_title ;
+                feed._category = req.body.category ? req.body.category : feed._category;
+                return feed.save(function (err) {
+                    if (!err) {
+                        console.log("feed saved!", feed);
+                        res.redirect("/feeds/" + id);
+                    } else {
+                        console.log("/feeds/edit errors !", err);
+                        errors = err.errors;
+                        res.render("feeds/edit.twig", {feed:feed, feed_id:id, errors:errors});
+                    }
+                });
+            } else {
+                console.log(feed);
+                return res.render("feeds/edit.twig", {feed:feed, feed_id:id, errors:errors});
+            }
+        });
 
     }
 };

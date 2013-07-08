@@ -2,7 +2,7 @@
 {% block content %}
     <!-- MAIN -->
     <div class="row">
-        <form action="/search" class="form-search span12">
+        <form action="/feeds/search" class="form-search span12">
             <input placeholder="Search" class="input-xxlarge" name="q" id="q" type="text">
             <input type="submit" class="btn" value="Search">
         </form>
@@ -29,15 +29,34 @@
                     <li><a class="font-small" href="/feeds/articles/unread">Unread Items</a>
                         <small class="muted font-small">({{ settings.unread_count }})</small>
                     </li>
+                    {#<li><a href="/feeds/history" class="font-small">Reading History</a>#}
+                    {#<span class="muted font-small">({{ settings.article_count - settings.unread_count }})</span></li>#}
                 </ul>
                 <h5>
                     <small>Subscriptions</small>
                 </h5>
                 <div>
+                    <!-- CATEGORY -->
+                    <h6 class="muted">Categories</h6>
+                    <ul class="unstyled font-small">
+                        {% for category in categories %}
+                            <li>{{ category.title }}
+                                {% if category._feeds and category._feeds|length>0 %}
+                                    <ul>
+                                        {% for feed in category._feeds %}
+                                            <li>{{ feed.title }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+
                     <!-- SUBSCRIPTIONS LIST -->
                     <ul class="unstyled">
+
                         {% for feed in feeds %}
-                          {% include "includes/feed-list-item.twig" %}
+                            {% include "includes/feed-list-item.twig" %}
                         {% endfor %}
                     </ul>
                 </div>
@@ -51,7 +70,7 @@
                 {% else %}
                     <ul class="unstyled nav nav-list">
                         {% for article in articles %}
-                                {% include "includes/article-list-item.twig"  %}
+                            {% include "includes/article-list-item.twig" %}
                         {% endfor %}
                     </ul>
                 {% endif %}
