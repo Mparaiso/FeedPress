@@ -21,6 +21,8 @@ favorites = require('./controllers/favorites');
 
 stream = require("./controllers/stream");
 
+middlewares = require("./lib/middlewares");
+
 Pimple = require('pimple');
 
 Config = require('./lib/config');
@@ -87,27 +89,12 @@ app.engine('.twig', consolidate.swig);
 
 swig.init({
     root:__dirname + "/views/",
-    allowErrors:true,
+    allowErrors:false,
     cache:false,
     encoding:'utf8',
     extensions:{
     },
-    filters:{
-        substring:function (input, start, length) {
-            var result;
-            result = "";
-            if (typeof input === "string") {
-                result = "".substring.call(input, start, length);
-            }
-            return result;
-        },
-        is_undefined:function (input) {
-            return typeof input === "undefined";
-        },
-        plus:function (input, number) {
-            return +input + number
-        }
-    }
+    filters:app.DI.get('filters')
 });
 
 
@@ -115,72 +102,11 @@ swig.init({
  * MIDDLEWARES
  */
 
-var countArticles = function (req, res, next) {
-    req.app.DI.logger.log("counting articles");
-    var db = req.app.DI.db;
-    return db.model("Article").count(function (err, result) {
-        res.locals.article_count = result;
-        next();
-    });
-};
-var countStared = function (req, res, next) {
-    req.app.DI.logger.log("counting stared");
-    var db = req.app.DI.db;
-    return db.model("Article").count({_favorite:true}, function (err, result) {
-        req.app.set("favorite_count", result);
-        next();
-    });
-};
-
-var countUnread = function (req, res, next) {
-    req.app.DI.logger.log("counting unread");
-    var db = req.app.DI.db;
-    return db.model("Article").count({_read:null}, function (err, result) {
-        req.app.set("unread_count", result || 0);
-        next();
-    });
-}
-
-var fetchFeeds = function (req, res, next) {
-    var db = req.app.DI.db;
-    return db.model("Feed").find({_category:{$exists:false}}, "title _nice_name xmlurl favicon", function (err, feeds) {
-        if (err)req.app.DI.logger.log("error form fetchFeeds", err);
-        if (feeds)app.locals.feeds = feeds;
-        next();
-    });
-};
-
-var fetchCategories = function (req, res, next) {
-    var db = req.app.DI.db;
-    db.model("Category").find().populate({path:'_feeds', select:'_id title xmlurl favicon'}).exec(
-        function (err, categories) {
-            err ? (console.log(err)) : (res.locals.categories = categories);
-            next();
-        }
-    );
-};
-
-var createCategory = function (req, res, next) {
-    if (req.method == "POST" && req.body.category_new) {
-        var category = {title:req.body.category_new};
-        return req.app.DI.db.model("Category").update({title:category.title}, category, {upsert:true}, function (err) {
-            if (err) {
-                (req.app.DI.logger.log("error from createCategory", err))
-            } else {
-                ( req.body.category = category._id);
-            }
-            return next();
-        });
-    } else {
-        return next();
-    }
-};
-
-app.use("/feeds", countArticles);
-app.use("/feeds", countStared);
-app.use("/feeds", countUnread);
-app.use("/feeds", fetchFeeds);
-app.use("/feeds", fetchCategories);
+app.use("/feeds", middlewares.countArticles);
+app.use("/feeds", middlewares.countStared);
+app.use("/feeds", middlewares.countUnread);
+app.use("/feeds", middlewares.fetchFeeds);
+app.use("/feeds", middlewares.fetchCategories);
 
 app.use(express.favicon());
 
@@ -216,7 +142,7 @@ if ('development' === app.get('env')) {
  */
 app.map({
         '/':{
-            all:[fetchCategories, countArticles, countStared, countUnread, fetchFeeds, feeds.index]
+            all:[middlewares.fetchCategories, middlewares.countArticles, middlewares.countStared, middlewares.countUnread, middlewares.fetchFeeds, feeds.index]
         },
         '/feeds':{
             '/search':{
@@ -249,7 +175,7 @@ app.map({
                 all:favorites.index
             },
             '/edit/:id':{
-                all:[ fetchCategories, countArticles, countStared, countUnread, fetchFeeds, createCategory, feeds.edit]
+                all:[middlewares.createCategory,feeds.edit]
             },
             '/:id':{
                 get:feeds.read

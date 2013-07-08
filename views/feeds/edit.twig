@@ -19,15 +19,17 @@
             <label for="category">
                 Select a Category
             </label>
-            <select name="category" id="category">
-                <option value=""></option>
-                {% for category in categories %}
-                    <option {% if category._id == feed._category %}
-                        selected
+            <option value=""></option>
+            {% for category in categories %}
+                <label>
+                    <input type="radio" name="category"
+                    {% if feed._category.toString() ==  category._id  %}
+                        checked
                     {% endif %}
-                            value="{{ category._id }}">{{ category.title }}</option>
-                {% endfor %}
-            </select>
+                    id="category" value="{{ category._id }}">
+                    {{ category.title }}
+                </label>
+            {% endfor %}
             <label for="category_new">or create a new category:
             </label>
             <input type="text" name="category_new" id="category_new">

@@ -1,6 +1,6 @@
 <li style="list-style-type: none;" class="unstyled feed-list-item i-over {% if feed_id == feed._id %}active{% endif %}">
     <a title="{{ feed.original_title }}" class="overflow-hidden " href="/feeds/{{ feed._id }}">
-        <img src="/stream/{{ feed.favicon }}" class="favicon">
+        {#<img src="/stream/{{ feed.favicon }}" class="favicon">#}
         <!-- TITLE -->
         {{ feed.title|substring(0,18) }}</a>
         <span class="pull-right">
