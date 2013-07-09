@@ -1,25 +1,28 @@
+/*jslint node:true, es5: true, white: true ,plusplus: true,nomen: true, sloppy: true */
+/*globals angular */
 /**
  *
  * @type {{index: Function, read: Function, suscribe: Function}} FeedCtrl
  */
 module.exports = {
     toString:function () {
-        return "[object FeedCtrl]"
+        return "[object FeedCtrl]";
     },
     index:function (req, res) {
         var params = {}, skip, last, db = req.app.DI.db;
         params.limit = 30;
         last = Math.floor(res.locals.article_count / params.limit);
-        skip = req.query.skip < last && req.query.skip > 0 ? req.query.skip : 0
+        skip = req.query.skip < last && req.query.skip > 0 ? req.query.skip : 0;
         params.skip = skip * params.limit;
-        db.model('Article').findAllAndSortByPubDateDesc(params, function (err, articles) {
+        db.model('Article').findUnread(params, function (err, articles) {
             if (err) {
                 return res.send(500, arguments);
             } else {
                 return res.render("feeds/index.twig", {
                     articles:articles,
                     skip:skip,
-                    last:last
+                    last:last,
+                    subtitle:"Latest Articles"
                 });
             }
         });
@@ -39,7 +42,7 @@ module.exports = {
                 } else {
                     req.flash("info", ["Feed", feed.title, "subscribed"].join(" "));
                 }
-                res.redirect("/");
+                res.redirect("/feeds/"+feed._id);
             });
         } else {
             res.redirect("/");
