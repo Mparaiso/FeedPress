@@ -1,11 +1,17 @@
 module.exports = {
     unread:function (req, res) {
         var db = req.app.DI.db;
-        db.model('Article').findUnread(function (err, articles) {
+        var options = {
+            limit:res.locals.limit,
+            skip:res.locals.skip*res.locals.limit
+        }
+        db.model('Article').findUnread(options,function (err, articles) {
             console.log(err);
             if (err)return res.send(500, err);
             return res.render("feeds/index.twig", {
-                articles:articles
+                articles:articles,
+                last:Math.floor(res.locals.unread_count/res.locals.limit),
+                subtitle:'Unread Articles.'
             });
         });
     },
@@ -17,6 +23,13 @@ module.exports = {
             return res.render("articles/read.twig", {
                 article:article
             });
+        });
+    },
+    byCategoryTitle:function (req, res) {
+        var db = req.app.DI.db;
+        var title = req.params.title;
+        db.model("Article").findByCategoryTitle(title, function (err, articles) {
+            err ? res.send(500, err) : res.render("feeds/index.twig", {articles:articles, subtitle:"By Category : "+title});
         });
     }
 };

@@ -1,10 +1,14 @@
 <li style="list-style-type: none;" class="unstyled feed-list-item i-over {% if feed_id == feed._id %}active{% endif %}">
-    <a title="{{ feed.original_title }}" class="overflow-hidden " href="/feeds/{{ feed._id }}">
-        {#<img src="/stream/{{ feed.favicon }}" class="favicon">#}
-        <!-- TITLE -->
-        {{ feed.title|substring(0,16) }}</a>
+    <span>
+        <a title="{{ feed.original_title }}" class="overflow-hidden " style="max-width:50px;"
+           href="/feeds/{{ feed._id }}">
+            {#<img src="/stream/{{ feed.favicon }}" class="favicon">#}
+            <!-- TITLE -->
+            {{ feed.title|substring(0,13)|trim }}</a>
+                    <span class="muted">({{ feed._articles.length }})</span>
+
+    </span>
     {% if feed._articles.length > 0 %}
-        <span class="muted">({{ feed._articles.length }})</span>
     {% endif %}
     <span class="pull-right">
     <a href="/feeds/edit/{{ feed._id }}" class="unstyled"><i class="icon-edit" title="edit {{ feed.title }}"></i></a>

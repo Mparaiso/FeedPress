@@ -8,6 +8,16 @@
         </form>
     </div>
     <div class="row">
+        {% for messages in flash %}
+            {% set type = loop.key %}
+            {% for message in messages %}
+                <div class="span12 font-small alert alert-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    <div class="row">
         <div class="span2">
             {% block left %}
                 <!-- SUBSCRIBE FORM -->
@@ -24,7 +34,7 @@
                     <li><a class="font-small" href="/feeds">All items</a>
                         <small class="muted font-small">({{ article_count }})</small>
                     </li>
-                    <li><a class="font-small" href="/feeds/favorites">Starred Items</a>
+                    <li><a class="font-small" href="/feeds/favorites">Stared Items</a>
                         <span class="muted font-small">({{ settings.favorite_count }})</span></li>
                     <li><a class="font-small" href="/feeds/articles/unread">Unread Items</a>
                         <small class="muted font-small">({{ settings.unread_count }})</small>
@@ -40,8 +50,12 @@
                     <ul class="unstyled " style="list-style-type: none">
                         {% for category in categories %}
                             <li>
+                                <!-- CATEGORY TITLE -->
                                 <small class="font-small"><i class=" icon-folder-open"></i>
-                                    {{ category.title }}</small>
+                                    <a href="/feeds/articles/bycategorytitle/{{ category.title|url_encode }}">{{ category.title }}</a>
+                                    <span class="muted"> ({{ category|getTotalArticlesForCategory }})</span>
+                                </small>
+
                                 {% if category._feeds %}
                                     <ul class="unstyled category-feed-list">
                                         {% for feed in category._feeds %}
@@ -70,7 +84,7 @@
                     <h3>No articles found yet , please subscribe a feed</h3>
                 {% else %}
                     {% if subtitle %}
-                    <div class="breadcrumb">{{ subtitle }}</div>
+                        <div class="breadcrumb">{{ subtitle }}</div>
                     {% endif %}
                     {% include 'includes/paginator.twig' %}
                     <ul class="unstyled nav nav-list">

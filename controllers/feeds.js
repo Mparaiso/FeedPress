@@ -31,9 +31,13 @@ module.exports = {
         url = req.body.url;
         db = req.app.DI.db;
         if (url) {
-            db.model('Feed').subscribe(url, function (err) {
+            db.model('Feed').subscribe(url, function (err, feed) {
+                console.log("feed",feed);
                 if (err) {
-                    console.log(err);
+                    console.log(req.url, err);
+                    req.flash("error", ["Error subscribing feed", feed.title].join(" "));
+                } else {
+                    req.flash("info", ["Feed", feed.title, "subscribed"].join(" "));
                 }
                 res.redirect("/");
             });
@@ -51,7 +55,7 @@ module.exports = {
         var db = req.app.DI.db;
         return db.model('Article').findByFeedId(id, function (err, articles) {
             if (err) return res.send(500, arguments);
-            return res.render("feeds/index.twig", { articles:articles, feed_id:id,subtitle:articles[0]._feed.title});
+            return res.render("feeds/index.twig", { articles:articles, feed_id:id, subtitle:articles[0]._feed.title});
         });
     },
     /**
@@ -65,6 +69,13 @@ module.exports = {
         db.model('Article').findByTags(tags, function (err, articles) {
             if (err)  return res.send(500, err);
             return res.render("feeds/index.twig", {articles:articles, subtitle:"Tags: " + tags.join(" ")});
+        });
+    },
+    byCategory:function(req,res){
+        var db = req.app.DI.db;
+        var id=req.params.id;
+        db.model("Article").findByCategory(id,function(err,articles){
+            err?res.send(500,err):res.render("feeds/index.twig",{articles:articles,subtitle:"By Category"});
         });
     },
     /**
@@ -87,8 +98,8 @@ module.exports = {
     },
     unsubscribe:function (req, res) {
         var db = req.app.DI.db;
-        db.model('Feed').unsubscribe(req.params.id, function (err) {
-            console.log("feed unsubscribe", arguments);
+        db.model('Feed').unsubscribe(req.params.id, function (err, feed) {
+            req.flash('info', ["Feed : ", feed.title, "removed"].join(" "));
             res.redirect("/");
         });
     },

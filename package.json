@@ -15,7 +15,11 @@
         "pimple":"*",
         "xpath":"*",
         "xmldom":"*",
-        "async":"*"
+        "async":"*",
+        "connect-flash":"*"
+    },
+    "devDependencies": {
+        "mocha": "*"
     },
     "engines":{
         "node":"0.10.x",

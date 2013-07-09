@@ -7,7 +7,7 @@
  * @licence LGPL
  * @copyright mparaiso
  */
-var Config, Pimple, app, articles, consolidate, express, feeds, http, path, server, swig;
+var Config, Pimple, app, articles, consolidate, express, feeds, http, path, server, swig, flash;
 
 express = require('express');
 
@@ -30,6 +30,9 @@ Config = require('./lib/config');
 http = require('http');
 
 path = require('path');
+
+flash = require("connect-flash"); // flash messages
+
 
 app = express();
 
@@ -69,7 +72,8 @@ app.set("title", "FeedPress!");
 app.set("author", "Mparaiso");
 app.set('views', __dirname + '/views');
 app.set('view engine', 'html');
-app.set('project_url','https://github.com/Mparaiso/FeedPress');
+app.set('project_url', 'https://github.com/Mparaiso/FeedPress');
+app.set("items_per_page",30);
 
 /**
  * Dependency injection container
@@ -91,7 +95,7 @@ app.engine('.twig', consolidate.swig);
 swig.init({
     root:__dirname + "/views/",
     allowErrors:false,
-    cache:false,
+    cache:true,
     encoding:'utf8',
     extensions:{
     },
@@ -103,6 +107,7 @@ swig.init({
  * MIDDLEWARES
  */
 
+app.use("/", middlewares.skipBunny);
 app.use("/feeds", middlewares.countArticles);
 app.use("/feeds", middlewares.countStared);
 app.use("/feeds", middlewares.countUnread);
@@ -120,6 +125,14 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 
 app.use(express.session());
+
+app.use(flash());
+
+app.use(function (req, res, next) {
+    req.app.locals.flash = req.flash();
+    next();
+});
+
 
 app.use(app.router);
 
@@ -155,6 +168,12 @@ app.map({
                 },
                 '/bytags/:tag':{
                     get:feeds.byTags
+                },
+                '/bycategory/:id':{
+                    all:feeds.byCategory
+                },
+                '/bycategorytitle/:title':{
+                    all:articles.byCategoryTitle
                 },
                 '/:id':{
                     get:articles.read
