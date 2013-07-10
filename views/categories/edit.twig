@@ -1,0 +1,13 @@
+{% extends 'feeds/index.twig' %}
+{% block center %}
+<form action="" method="POST">
+    <fieldset>
+        <legend>Edit Category : {{category.title}}</legend>
+        <label for="">Title</label>
+        <input type="text" name="title" id="title" min-length="3" value="{{category.title}}" required >
+        <br>
+        <input type="reset" value="Reset" class="btn">
+        <input type="submit" value="Edit" class="btn btn-info">
+    </fieldset>
+</form>
+{% endblock %}
