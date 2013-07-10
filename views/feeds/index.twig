@@ -5,6 +5,9 @@
         <form action="/feeds/search" class="form-search span12">
             <input placeholder="Search" class="input-xxlarge" name="q" id="q" type="text">
             <input type="submit" class="btn" value="Search">
+            {% if last_sync_date %}
+                Last Sync : {{ last_sync_date|date("D d, Y M H:i:s")}}
+            {% endif %}
         </form>
     </div>
     <div class="row">
@@ -51,11 +54,17 @@
                         {% for category in categories %}
                             <li>
                                 <!-- CATEGORY TITLE -->
-                                <small class="font-small"><i class=" icon-folder-open"></i>
-                                    <a href="/feeds/articles/bycategorytitle/{{ category.title|url_encode }}">{{ category.title }}</a>
+                                <small ><i class=" icon-folder-open"></i></small>
+                                <small class="font-small i-over">
+                                    <b><a href="/feeds/articles/bycategorytitle/{{ category.title|url_encode }}">{{ category.title }}</a></b>
                                     <span class="muted"> ({{ category|getTotalArticlesForCategory }})</span>
+                                <span class="pull-right">
+                                    <a href="/feeds/categories/edit/{{ category._id }}" class="unstyled"><i class="icon-edit" title="edit {{ feed.title }}"></i></a>
+                                    <a class="unstyled" title="unsuscribe to {{ feed.xmlurl }}" href="/feeds/categories/delete/{{ category._id }}">
+                                    <i class="icon-remove"></i>
+                                    </a>
+                                </span>
                                 </small>
-
                                 {% if category._feeds %}
                                     <ul class="unstyled category-feed-list">
                                         {% for feed in category._feeds %}
@@ -63,6 +72,7 @@
                                         {% endfor %}
                                     </ul>
                                 {% endif %}
+                                <br>
                             </li>
                         {% endfor %}
                     </ul>

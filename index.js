@@ -15,6 +15,8 @@ settings = require("./controllers/settings");
 
 feeds = require('./controllers/feeds');
 
+categories = require("./controllers/categories");
+
 articles = require('./controllers/articles');
 
 favorites = require('./controllers/favorites');
@@ -178,6 +180,14 @@ app.map({
                 '/:id':{
                     get:articles.read
                 }
+            },
+            '/categories':{
+                '/edit/:id':{
+                    all:categories.edit
+                },
+               '/delete/:id':{
+                    all:categories.delete
+               }
             },
             '/subscribe':{
                 post:feeds.subscribe

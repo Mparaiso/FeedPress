@@ -35,14 +35,14 @@ module.exports = {
         db = req.app.DI.db;
         if (url) {
             db.model('Feed').subscribe(url, function (err, feed) {
-                console.log("feed",feed);
+                console.log("feed", feed);
                 if (err) {
                     console.log(req.url, err);
                     req.flash("error", ["Error subscribing feed", feed.title].join(" "));
                 } else {
                     req.flash("info", ["Feed", feed.title, "subscribed"].join(" "));
                 }
-                res.redirect("/feeds/"+feed._id);
+                res.redirect("/feeds/" + feed._id);
             });
         } else {
             res.redirect("/");
@@ -56,10 +56,15 @@ module.exports = {
     read:function (req, res) {
         var id = req.params.id;
         var db = req.app.DI.db;
-        return db.model('Article').findByFeedId(id, function (err, articles) {
-            if (err) return res.send(500, arguments);
-            return res.render("feeds/index.twig", { articles:articles, feed_id:id, subtitle:articles[0]._feed.title});
-        });
+        return db.model('Feed').findOne({_id:id}).populate({path:"_articles", select:"link _read _favorite pubDate title meta.title"})
+            .lean().exec(function (err, feed) {
+                if (err) return res.send(500, arguments);
+                feed._articles.forEach(function (a) {
+                    a._feed = feed;
+                });
+                return res.render("feeds/index.twig", { articles:feed._articles, feed_id:feed._id, subtitle:feed.title});
+            }
+        );
     },
     /**
      * display articles by tags
@@ -74,11 +79,11 @@ module.exports = {
             return res.render("feeds/index.twig", {articles:articles, subtitle:"Tags: " + tags.join(" ")});
         });
     },
-    byCategory:function(req,res){
+    byCategory:function (req, res) {
         var db = req.app.DI.db;
-        var id=req.params.id;
-        db.model("Article").findByCategory(id,function(err,articles){
-            err?res.send(500,err):res.render("feeds/index.twig",{articles:articles,subtitle:"By Category"});
+        var id = req.params.id;
+        db.model("Article").findByCategory(id, function (err, articles) {
+            err ? res.send(500, err) : res.render("feeds/index.twig", {articles:articles, subtitle:"By Category"});
         });
     },
     /**
@@ -138,4 +143,5 @@ module.exports = {
         });
 
     }
-};
+}
+;
