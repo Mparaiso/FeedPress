@@ -11,7 +11,7 @@
         "consolidate":"*",
         "swig":"*",
         "mongoose":"*",
-        "ortoo-feedparser":"*",
+        "ortoo-feedparser":"git+https://github.com/mpmedia/node-feedparser.git",
         "pimple":"*",
         "xpath":"*",
         "xmldom":"*",
