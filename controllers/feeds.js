@@ -92,7 +92,7 @@ module.exports = {
      * @param {response} res
      */
     refresh:function (req, res) {
-        req.socket.setTimeout(10 * 60 * 1000);
+        req.setTimeout(10 * 60 * 1000);
         var db = req.app.DI.db;
         db.model('Feed').refresh(function (err) {
             if (err) {
